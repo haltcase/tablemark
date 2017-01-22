@@ -1,0 +1,34 @@
+{
+  "name": "tablemark",
+  "version": "1.0.0-alpha.1",
+  "description": "Generate markdown tables from JSON data.",
+  "license": "MIT",
+  "scripts": {
+    "test": "ava",
+    "test:watch": "ava -w"
+  },
+  "keywords": [
+    "markdown",
+    "tables",
+    "json",
+    "convert",
+    "generate"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "engines": {
+    "node": ">=4"
+  },
+  "dependencies": {
+    "is-plain-obj": "^1.1.0"
+  },
+  "devDependencies": {
+    "ava": "^0.17.0",
+    "eslint": "^3.13.1",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-prefer-let": "^0.1.0",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1"
+  }
+}
