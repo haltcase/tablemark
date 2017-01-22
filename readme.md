@@ -1,4 +1,4 @@
-# tablemark [![Version](https://img.shields.io/npm/v/tablemark.svg?style=flat-square)](https://www.npmjs.com/package/tablemark) [![License](https://img.shields.io/npm/v/tablemark.svg?style=flat-square)](https://www.npmjs.com/package/tablemark) [![Travis CI](https://img.shields.io/travis/citycide/tablemark.svg?style=flat-square)](https://travis-ci.org/citycide/tablemark) [![JavaScript Standard Style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)
+# tablemark [![Version](https://img.shields.io/npm/v/tablemark.svg?style=flat-square)](https://www.npmjs.com/package/tablemark) [![License](https://img.shields.io/npm/l/tablemark.svg?style=flat-square)](https://www.npmjs.com/package/tablemark) [![Travis CI](https://img.shields.io/travis/citycide/tablemark.svg?style=flat-square)](https://travis-ci.org/citycide/tablemark) [![JavaScript Standard Style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)
 
 > Generate markdown tables from JSON data.
 
