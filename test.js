@@ -17,17 +17,3 @@ test('replaces column names when provided', t => {
   let result = fn(cases.columns.input, cases.columns.options)
   t.is(result, cases.columns.expected)
 })
-
-test('the thing', t => {
-  console.log(fn([
-    { name: 'Bob', age: 21, isCool: false },
-    { name: 'Sarah', age: 22, isCool: true },
-    { name: 'Lee', age: 23, isCool: true }
-  ], {
-    columns: [
-      'first name',
-      { name: 'how old', align: 'center' },
-      'are they cool'
-    ]
-  }))
-})
