@@ -1,6 +1,6 @@
 {
   "name": "tablemark",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Generate markdown tables from JSON data.",
   "license": "MIT",
   "repository": "citycide/tablemark",
