@@ -3,6 +3,7 @@
   "version": "1.0.0-alpha.1",
   "description": "Generate markdown tables from JSON data.",
   "license": "MIT",
+  "repository": "citycide/tablemark",
   "scripts": {
     "test": "ava",
     "test:watch": "ava -w"
