@@ -1,4 +1,6 @@
-const { EOL } = require('os')
+'use strict'
+
+const os = require('os')
 
 module.exports = {
   standard: {
@@ -25,7 +27,7 @@ module.exports = {
       'trilogy | [citycide/trilogy](//github.com/citycide/trilogy) | No-hassle SQLite with type-casting schema models and support for native & pure JS backends.',
       'strat | [citycide/strat](//github.com/citycide/strat) | Functional-ish JavaScript string formatting, with inspirations from Python.',
       'tablemark | [citycide/tablemark](//github.com/citycide/tablemark) | Generate markdown tables from JSON data.'
-    ].join(EOL) + EOL
+    ].join(os.EOL) + os.EOL
   },
   alignments: {
     input: [
@@ -46,7 +48,7 @@ module.exports = {
       'Bob | 21 | false',
       'Sarah | 22 | true',
       'Lee | 23 | true'
-    ].join(EOL) + EOL
+    ].join(os.EOL) + os.EOL
   },
   columns: {
     input: [
@@ -67,6 +69,6 @@ module.exports = {
       'Bob | 21 | false',
       'Sarah | 22 | true',
       'Lee | 23 | true'
-    ].join(EOL) + EOL
+    ].join(os.EOL) + os.EOL
   }
 }

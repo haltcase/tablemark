@@ -1,4 +1,6 @@
-const { EOL } = require('os')
+'use strict'
+
+const os = require('os')
 const isPlainObject = require('is-plain-obj')
 
 const ALIGN = {
@@ -42,14 +44,14 @@ module.exports = (input, options) => {
 
   // header line
   table += titles.join(' | ')
-  table += EOL
+  table += os.EOL
 
   // header separator
   table += alignments.map(v => {
     let s = String(v).toUpperCase()
     return ALIGN[s] || '-----'
   }).join(' | ')
-  table += EOL
+  table += os.EOL
 
   // table body
   input.forEach(item => {
@@ -57,7 +59,7 @@ module.exports = (input, options) => {
       let v = item[key]
       if (typeof v === 'undefined') return ''
       return String(v)
-    }).join(' | ') + EOL
+    }).join(' | ') + os.EOL
   })
 
   return table
