@@ -2,11 +2,20 @@
   "name": "tablemark",
   "version": "1.0.0-alpha.2",
   "description": "Generate markdown tables from JSON data.",
+  "author": {
+    "name": "Bo Lingen",
+    "email": "lingenbw@gmail.com",
+    "url": "github.com/citycide"
+  },
   "license": "MIT",
-  "repository": "citycide/tablemark",
-  "scripts": {
-    "test": "ava",
-    "test:watch": "ava -w"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/citycide/tablemark.git"
+  },
+  "homepage": "https://github.com/citycide/tablemark",
+  "bugs": "https://github.com/citycide/tablemark/issues",
+  "engines": {
+    "node": ">=4"
   },
   "keywords": [
     "markdown",
@@ -18,8 +27,9 @@
   "files": [
     "index.js"
   ],
-  "engines": {
-    "node": ">=4"
+  "scripts": {
+    "test": "ava",
+    "test:watch": "ava -w"
   },
   "dependencies": {
     "is-plain-obj": "^1.1.0"
