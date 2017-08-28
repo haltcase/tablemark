@@ -1,13 +1,8 @@
 'use strict'
 
 const os = require('os')
-const isPlainObject = require('is-plain-obj')
 
-const ALIGN = {
-  LEFT: ':----',
-  CENTER: ':---:',
-  RIGHT: '----:'
-}
+const columnWidthMin = 5
 
 module.exports = (input, options) => {
   if (!Array.isArray(input)) {
@@ -19,48 +14,86 @@ module.exports = (input, options) => {
   options = Object.assign({}, options)
 
   let table = ''
-  let titles = []
-  let alignments = []
 
   let keys = Object.keys(input[0])
 
-  if (!options.columns || !Array.isArray(options.columns)) {
-    // use the keys from the first object
-    titles = keys
-    alignments = new Array(titles.length).fill('')
-  } else {
-    titles = keys.map((key, i) => {
-      let column = options.columns[i]
+  let titles = keys.map((key, i) => {
+    if (Array.isArray(options.columns) && options.columns[i]) {
+        if (typeof options.columns[i] === 'string') {
+          return options.columns[i]
+        } else if (options.columns[i].name) {
+          return options.columns[i].name
+        }
+    }
 
-      if (isPlainObject(column)) {
-        alignments[i] = column.align
-        return column.name || key
-      } else {
-        alignments[i] = ''
-        return column || key
-      }
-    })
-  }
+    return key
+  })
+
+  let widths = input.reduce(
+    (sizes, item) => keys.map(
+      (key, i) => Math.max(
+        columnWidthMin,
+        typeof item[key] === 'undefined' ? 0 : String(item[key]).length,
+        sizes[i]
+      )
+    ),
+    titles.map(t => t.length)
+  )
+
+  let alignments = keys.map((key, i) => {
+    if (Array.isArray(options.columns)
+      && options.columns[i]
+      && options.columns[i].align
+    ) {
+      return String(options.columns[i].align).toUpperCase()
+    }
+  })
 
   // header line
-  table += titles.join(' | ')
-  table += os.EOL
+  table += row(titles.map((title, i) => {
+    return pad(alignments[i], widths[i], title)
+  }))
 
   // header separator
-  table += alignments.map(v => {
-    let s = String(v).toUpperCase()
-    return ALIGN[s] || '-----'
-  }).join(' | ')
-  table += os.EOL
+  table += row(alignments.map((align, i) => {
+    return (align === 'LEFT' || align === 'CENTER' ? ':' : '-')
+      + '-'.repeat(widths[i] - 2)
+      + (align === 'RIGHT' || align === 'CENTER' ? ':' : '-')
+  }))
 
   // table body
   input.forEach(item => {
-    table += keys.map(key => {
+    table += row(keys.map((key, i) => {
       let v = item[key]
-      if (typeof v === 'undefined') return ''
-      return String(v)
-    }).join(' | ') + os.EOL
+      let s =  typeof v === 'undefined' ? '' : String(v)
+
+      return pad(alignments[i], widths[i], s)
+    }))
   })
 
   return table
+}
+
+function pad(alignment, target, value){
+  if (!alignment || alignment === 'LEFT') {
+    return value.padEnd(target)
+  }
+
+  if (alignment === 'RIGHT') {
+    return value.padStart(target)
+  }
+
+  // CENTER
+  let remainder = (target - value.length) % 2
+  let sides = (target - value.length - remainder) / 2
+
+  return ' '.repeat(sides) + value + ' '.repeat(sides + remainder)
+}
+
+function row(v){
+  if (Array.isArray(v)) {
+    v = v.join(' | ')
+  }
+
+  return '| ' + v + ' |' + os.EOL
 }

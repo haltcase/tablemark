@@ -22,11 +22,11 @@ module.exports = {
       }
     ],
     expected: [
-      'name | repo | desc',
-      '----- | ----- | -----',
-      'trilogy | [citycide/trilogy](//github.com/citycide/trilogy) | No-hassle SQLite with type-casting schema models and support for native & pure JS backends.',
-      'strat | [citycide/strat](//github.com/citycide/strat) | Functional-ish JavaScript string formatting, with inspirations from Python.',
-      'tablemark | [citycide/tablemark](//github.com/citycide/tablemark) | Generate markdown tables from JSON data.'
+      '| name      | repo                                                  | desc                                                                                        |',
+      '| --------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------- |',
+      '| trilogy   | [citycide/trilogy](//github.com/citycide/trilogy)     | No-hassle SQLite with type-casting schema models and support for native & pure JS backends. |',
+      '| strat     | [citycide/strat](//github.com/citycide/strat)         | Functional-ish JavaScript string formatting, with inspirations from Python.                 |',
+      '| tablemark | [citycide/tablemark](//github.com/citycide/tablemark) | Generate markdown tables from JSON data.                                                    |',
     ].join(os.EOL) + os.EOL
   },
   alignments: {
@@ -43,11 +43,11 @@ module.exports = {
       ]
     },
     expected: [
-      'name | age | isCool',
-      ':---- | ----: | :---:',
-      'Bob | 21 | false',
-      'Sarah | 22 | true',
-      'Lee | 23 | true'
+      '| name  |   age | isCool |',
+      '| :---- | ----: | :----: |',
+      '| Bob   |    21 | false  |',
+      '| Sarah |    22 |  true  |',
+      '| Lee   |    23 |  true  |',
     ].join(os.EOL) + os.EOL
   },
   columns: {
@@ -64,11 +64,11 @@ module.exports = {
       ]
     },
     expected: [
-      'word | number | boolean',
-      '----- | ----- | -----',
-      'Bob | 21 | false',
-      'Sarah | 22 | true',
-      'Lee | 23 | true'
+      '| word  | number | boolean |',
+      '| ----- | ------ | ------- |',
+      '| Bob   | 21     | false   |',
+      '| Sarah | 22     | true    |',
+      '| Lee   | 23     | true    |',
     ].join(os.EOL) + os.EOL
   }
 }
