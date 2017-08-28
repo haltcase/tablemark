@@ -65,7 +65,7 @@ module.exports = (input, options) => {
   // header separator
   table += row(alignments.map((align, i) => {
     return (align === 'LEFT' || align === 'CENTER' ? ':' : '-')
-      + '-'.repeat(widths[i] - 2)
+      + repeat('-', widths[i] - 2)
       + (align === 'RIGHT' || align === 'CENTER' ? ':' : '-')
   }))
 
@@ -84,18 +84,18 @@ module.exports = (input, options) => {
 
 function pad(alignment, target, value){
   if (!alignment || alignment === 'LEFT') {
-    return value.padEnd(target)
+    return padEnd(value, target)
   }
 
   if (alignment === 'RIGHT') {
-    return value.padStart(target)
+    return padStart(value, target)
   }
 
   // CENTER
   let remainder = (target - value.length) % 2
   let sides = (target - value.length - remainder) / 2
 
-  return ' '.repeat(sides) + value + ' '.repeat(sides + remainder)
+  return repeat(' ', sides) + value + repeat(' ', sides + remainder)
 }
 
 function row(v){
@@ -104,4 +104,16 @@ function row(v){
   }
 
   return '| ' + v + ' |' + os.EOL
+}
+
+function repeat(what, times){
+  return new Array(times).fill(what).join('')
+}
+
+function padStart(what, target, start){
+  return repeat(' ', target - what.length) + what
+}
+
+function padEnd(what, target, start){
+  return what + repeat(' ', target - what.length)
 }
