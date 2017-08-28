@@ -31,9 +31,6 @@
     "test": "ava",
     "test:watch": "ava -w"
   },
-  "dependencies": {
-    "is-plain-obj": "^1.1.0"
-  },
   "devDependencies": {
     "ava": "^0.20.0",
     "snazzy": "^7.0.0",
