@@ -24,20 +24,20 @@ tablemark([
   { name: 'Lee', age: 23, isCool: true }
 ])
 
-// name | age | isCool
-// ----- | ----- | -----
-// Bob | 21 | false
-// Sarah | 22 | true
-// Lee | 23 | true
+// | name  | age   | isCool |
+// | ----- | ----- | ------ |
+// | Bob   | 21    | false  |
+// | Sarah | 22    | true   |
+// | Lee   | 23    | true   |
 ```
 
 ... displays as:
 
-name | age | isCool
------ | ----- | -----
-Bob | 21 | false
-Sarah | 22 | true
-Lee | 23 | true
+| name  | age   | isCool |
+| ----- | ----- | ------ |
+| Bob   | 21    | false  |
+| Sarah | 22    | true   |
+| Lee   | 23    | true   |
 
 ```js
 tablemark([
@@ -52,20 +52,20 @@ tablemark([
   ]
 })
 
-// first name | how old | are they cool
-// ----- | :---: | -----
-// Bob | 21 | false
-// Sarah | 22 | true
-// Lee | 23 | true
+// | first name | how old | are they cool |
+// | ---------- | :-----: | ------------- |
+// | Bob        |   21    | false         |
+// | Sarah      |   22    | true          |
+// | Lee        |   23    | true          |
 ```
 
 ... displays as:
 
-first name | how old | are they cool
------ | :---: | -----
-Bob | 21 | false
-Sarah | 22 | true
-Lee | 23 | true
+| first name | how old | are they cool |
+| ---------- | :-----: | ------------- |
+| Bob        |   21    | false         |
+| Sarah      |   22    | true          |
+| Lee        |   23    | true          |
 
 ## api
 
