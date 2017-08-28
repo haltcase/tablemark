@@ -49,9 +49,9 @@ module.exports = (input, options) => {
     ) {
       let align = String(options.columns[i].align).toUpperCase()
 
-      if (!ALIGN.includes(align)) throw new TypeError(
-        `Unknown alignment, got ${options.columns[i].align}`
-      )
+      if (ALIGN.indexOf(align) === -1) {
+        throw new TypeError(`Unknown alignment, got ${options.columns[i].align}`)
+      }
 
       return align
     }
