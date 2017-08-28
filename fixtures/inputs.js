@@ -22,7 +22,7 @@ module.exports = {
       }
     ],
     expected: [
-      '| name      | repo                                                  | desc                                                                                        |',
+      '| Name      | Repo                                                  | Desc                                                                                        |',
       '| --------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------- |',
       '| trilogy   | [citycide/trilogy](//github.com/citycide/trilogy)     | No-hassle SQLite with type-casting schema models and support for native & pure JS backends. |',
       '| strat     | [citycide/strat](//github.com/citycide/strat)         | Functional-ish JavaScript string formatting, with inspirations from Python.                 |',
@@ -43,11 +43,11 @@ module.exports = {
       ]
     },
     expected: [
-      '| name  |   age | isCool |',
-      '| :---- | ----: | :----: |',
-      '| Bob   |    21 | false  |',
-      '| Sarah |    22 |  true  |',
-      '| Lee   |    23 |  true  |',
+      '| Name  |   Age | Is cool |',
+      '| :---- | ----: | :-----: |',
+      '| Bob   |    21 |  false  |',
+      '| Sarah |    22 |  true   |',
+      '| Lee   |    23 |  true   |',
     ].join(os.EOL) + os.EOL
   },
   columns: {
@@ -69,6 +69,23 @@ module.exports = {
       '| Bob   | 21     | false   |',
       '| Sarah | 22     | true    |',
       '| Lee   | 23     | true    |',
+    ].join(os.EOL) + os.EOL
+  },
+  casing: {
+    input: [
+      { name: 'Bob', age: 21, isCool: false },
+      { name: 'Sarah', age: 22, isCool: true },
+      { name: 'Lee', age: 23, isCool: true }
+    ],
+    options: {
+      caseHeaders: false,
+    },
+    expected: [
+      '| name  | age   | isCool |',
+      '| ----- | ----- | ------ |',
+      '| Bob   | 21    | false  |',
+      '| Sarah | 22    | true   |',
+      '| Lee   | 23    | true   |',
     ].join(os.EOL) + os.EOL
   }
 }

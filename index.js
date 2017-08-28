@@ -1,6 +1,7 @@
 'use strict'
 
 const os = require('os')
+const sentence = require('sentence-case')
 
 const ALIGN = [ 'LEFT', 'CENTER', 'RIGHT' ]
 
@@ -28,7 +29,9 @@ module.exports = (input, options) => {
         }
     }
 
-    return key
+    if (options.caseHeaders === false) return key
+
+    return sentence(key)
   })
 
   let widths = input.reduce(

@@ -35,5 +35,8 @@
     "ava": "^0.20.0",
     "snazzy": "^7.0.0",
     "standard": "^10.0.2"
+  },
+  "dependencies": {
+    "sentence-case": "^2.1.1"
   }
 }

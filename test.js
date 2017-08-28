@@ -17,3 +17,8 @@ test('replaces column names when provided', t => {
   let result = fn(cases.columns.input, cases.columns.options)
   t.is(result, cases.columns.expected)
 })
+
+test('can override sentence casing', t => {
+  let result = fn(cases.casing.input, cases.casing.options)
+  t.is(result, cases.casing.expected)
+})
