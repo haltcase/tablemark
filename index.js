@@ -2,6 +2,8 @@
 
 const os = require('os')
 
+const ALIGN = [ 'LEFT', 'CENTER', 'RIGHT' ]
+
 const columnWidthMin = 5
 
 module.exports = (input, options) => {
@@ -45,7 +47,13 @@ module.exports = (input, options) => {
       && options.columns[i]
       && options.columns[i].align
     ) {
-      return String(options.columns[i].align).toUpperCase()
+      let align = String(options.columns[i].align).toUpperCase()
+
+      if (!ALIGN.includes(align)) throw new TypeError(
+        `Unknown alignment, got ${options.columns[i].align}`
+      )
+
+      return align
     }
   })
 
