@@ -14,7 +14,11 @@ module.exports = (input, options) => {
     )
   }
 
-  options = Object.assign({}, options)
+  options = Object.assign({
+    stringify: v => typeof v === 'undefined' ? '' : String(v)
+  }, options)
+
+  let stringify = options.stringify
 
   let table = ''
 
@@ -36,11 +40,7 @@ module.exports = (input, options) => {
 
   let widths = input.reduce(
     (sizes, item) => keys.map(
-      (key, i) => Math.max(
-        columnWidthMin,
-        typeof item[key] === 'undefined' ? 0 : String(item[key]).length,
-        sizes[i]
-      )
+      (key, i) => Math.max(columnWidthMin, stringify(item[key]).length, sizes[i])
     ),
     titles.map(t => t.length)
   )
@@ -75,10 +75,7 @@ module.exports = (input, options) => {
   // table body
   input.forEach(item => {
     table += row(keys.map((key, i) => {
-      let v = item[key]
-      let s =  typeof v === 'undefined' ? '' : String(v)
-
-      return pad(alignments[i], widths[i], s)
+      return pad(alignments[i], widths[i], stringify(item[key]))
     }))
   })
 

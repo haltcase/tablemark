@@ -87,5 +87,26 @@ module.exports = {
       '| Sarah | 22    | true   |',
       '| Lee   | 23    | true   |',
     ].join(os.EOL) + os.EOL
+  },
+  coerce: {
+    input: [
+      { name: 'Bob', age: 21, isCool: false },
+      { name: 'Sarah', age: 22, isCool: true },
+      { name: 'Lee', age: 23, isCool: true }
+    ],
+    options: {
+      stringify: function stringify(v){
+        if (v === true) return 'Yes'
+        if (v === false) return 'No'
+        return String(v)
+      }
+    },
+    expected: [
+      '| Name  | Age   | Is cool |',
+      '| ----- | ----- | ------- |',
+      '| Bob   | 21    | No      |',
+      '| Sarah | 22    | Yes     |',
+      '| Lee   | 23    | Yes     |',
+    ].join(os.EOL) + os.EOL
   }
 }

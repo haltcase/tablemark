@@ -79,10 +79,11 @@ tablemark(input, [options = {}])
 - `{Array<Object>} input`: the data to table-ify
 - `{Object} [options = {}]`
 
-| key           | type        | default | description                              |
-| :-----------: | :---------: | :-----: | ---------------------------------------- |
-| `columns`     | `<Array>`   | -       | Array of column descriptors.             |
-| `caseHeaders` | `<Boolean>` | `true`  | Sentence case headers derived from keys. |
+| key           | type         | default | description                              |
+| :-----------: | :----------: | :-----: | ---------------------------------------- |
+| `columns`     | `<Array>`    | -       | Array of column descriptors.             |
+| `caseHeaders` | `<Boolean>`  | `true`  | Sentence case headers derived from keys. |
+| `stringify`   | `<Function>` | -       | Provide a custom "toString" function.    |
 
 The `columns` array can either contain objects, in which case their
 `name` and `align` properties will be used to alter the display of

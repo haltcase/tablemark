@@ -22,3 +22,8 @@ test('can override sentence casing', t => {
   let result = fn(cases.casing.input, cases.casing.options)
   t.is(result, cases.casing.expected)
 })
+
+test('can use custom stringify function', t => {
+  const result = fn(cases.coerce.input, cases.coerce.options)
+  t.is(result, cases.coerce.expected)
+})
