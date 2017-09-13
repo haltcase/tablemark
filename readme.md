@@ -79,17 +79,58 @@ tablemark(input, [options = {}])
 - `{Array<Object>} input`: the data to table-ify
 - `{Object} [options = {}]`
 
-| key           | type         | default | description                              |
-| :-----------: | :----------: | :-----: | ---------------------------------------- |
-| `columns`     | `<Array>`    | -       | Array of column descriptors.             |
-| `caseHeaders` | `<Boolean>`  | `true`  | Sentence case headers derived from keys. |
-| `stringify`   | `<Function>` | -       | Provide a custom "toString" function.    |
+| key            | type         | default    | description                                  |
+| :------------: | :----------: | :--------: | -------------------------------------------- |
+| `columns`      | `<Array>`    | -          | Array of column descriptors.                 |
+| `caseHeaders`  | `<Boolean>`  | `true`     | Sentence case headers derived from keys.     |
+| `stringify`    | `<Function>` | -          | Provide a custom "toString" function.        |
+| `wrap.width`   | `<Number>`   | `Infinity` | Wrap texts at this length.                   |
+| `wrap.gutters` | `<Boolean>`  | `false`    | Add sides (`| <content> |`) to wrapped rows. |
 
 The `columns` array can either contain objects, in which case their
 `name` and `align` properties will be used to alter the display of
 the column in the table, or any other type which will be coerced
 to a string if necessary and used as a replacement for the column
 name.
+
+## text wrapping
+
+To output valid [GitHub Flavoured Markdown](https://github.github.com/gfm/) a
+cell must not contain newlines. Consider replacing those with `<br />` (e.g.
+using the `stringify` option).
+
+Set the `wrap.width` option to wrap any content at that length onto a new
+adjacent line:
+
+```js
+tablemark([
+  { star: false, name: 'Benjamin' },
+  { star: true, name: 'Jet Li' },
+], { wrap: { width: 5 } })
+
+// | Star  | Name  |
+// | ----- | ----- |
+// | false | Benja |
+//           min
+// | true  | Jet   |
+//           Li
+```
+
+Enable `wrap.gutters` to add pipes on all lines:
+
+```js
+tablemark([
+  { star: false, name: 'Benjamin' },
+  { star: true, name: 'Jet Li' },
+], { wrap: { width: 5, gutters: true } })
+
+// | Star  | Name  |
+// | ----- | ----- |
+// | false | Benja |
+// |       | min   |
+// | true  | Jet   |
+// |       | Li    |
+```
 
 ## see also
 

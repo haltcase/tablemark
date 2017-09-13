@@ -108,5 +108,80 @@ module.exports = {
       '| Sarah | 22    | Yes     |',
       '| Lee   | 23    | Yes     |'
     ].join(os.EOL) + os.EOL
+  },
+  wrap: {
+    input: [
+      { name: 'Benjamin', age: 21, isCool: false },
+      { name: 'Sarah', age: 22, isCool: true },
+      { name: 'Lee', age: 23, isCool: true }
+    ],
+    options: {
+      wrap: { width: 5 }
+    },
+    expected: [
+      // headers wrap, soft wrap
+      '| Name  | Age   | Is    |',
+      '                  cool   ',
+      '| ----- | ----- | ----- |',
+      // hard wrap
+      '| Benja | 21    | false |',
+      '  min                    ',
+      // no wrap
+      '| Sarah | 22    | true  |',
+      '| Lee   | 23    | true  |'
+    ].join(os.EOL) + os.EOL
+  },
+  newlines: {
+    input: [
+      { name: 'Benjamin\nor Ben', age: 21, isCool: false },
+      { name: 'Sarah', age: 22, isCool: true },
+      { name: 'Lee', age: 23, isCool: true }
+    ],
+    expected: [
+      '| Name     | Age   | Is cool |',
+      '| -------- | ----- | ------- |',
+      '| Benjamin | 21    | false   |',
+      '  or Ben                      ',
+      '| Sarah    | 22    | true    |',
+      '| Lee      | 23    | true    |'
+    ].join(os.EOL) + os.EOL
+  },
+  wrapAndNewlines: {
+    input: [
+      { name: 'Benjamin or\nBen', age: 21, isCool: false },
+      { name: 'Sarah', age: 22, isCool: true },
+      { name: 'Lee', age: 23, isCool: true }
+    ],
+    options: {
+      wrap: { width: 8 }
+    },
+    expected: [
+      '| Name     | Age   | Is cool |',
+      '| -------- | ----- | ------- |',
+      '| Benjamin | 21    | false   |',
+      '  or                          ',
+      '  Ben                         ',
+      '| Sarah    | 22    | true    |',
+      '| Lee      | 23    | true    |'
+    ].join(os.EOL) + os.EOL
+  },
+  gutters: {
+    input: [
+      { name: 'Benjamin', age: 21, isCool: false },
+      { name: 'Sarah', age: 22, isCool: true },
+      { name: 'Lee', age: 23, isCool: true }
+    ],
+    options: {
+      wrap: { width: 5, gutters: true }
+    },
+    expected: [
+      '| Name  | Age   | Is    |',
+      '|       |       | cool  |',
+      '| ----- | ----- | ----- |',
+      '| Benja | 21    | false |',
+      '| min   |       |       |',
+      '| Sarah | 22    | true  |',
+      '| Lee   | 23    | true  |'
+    ].join(os.EOL) + os.EOL
   }
 }
