@@ -18,8 +18,6 @@ module.exports = (input, options) => {
   const stringify = options.stringify
   const keys = Object.keys(input[0])
 
-  let table = ''
-
   const titles = keys.map((key, i) => {
     if (Array.isArray(options.columns) && options.columns[i]) {
       if (typeof options.columns[i] === 'string') {
@@ -57,52 +55,50 @@ module.exports = (input, options) => {
     }
   })
 
+  let table = ''
+
   // header line
-  table += row(titles.map((title, i) => {
-    return pad(alignments[i], widths[i], title)
-  }))
+  table += row(titles.map(
+    (title, i) => pad(alignments[i], widths[i], title)
+  ))
 
   // header separator
-  table += row(alignments.map((align, i) => {
-    return (
+  table += row(alignments.map(
+    (align, i) => (
       (align === 'LEFT' || align === 'CENTER' ? ':' : '-') +
       repeat('-', widths[i] - 2) +
       (align === 'RIGHT' || align === 'CENTER' ? ':' : '-')
     )
-  }))
+  ))
 
   // table body
-  input.forEach(item => {
-    table += row(keys.map((key, i) => {
-      return pad(alignments[i], widths[i], stringify(item[key]))
-    }))
-  })
+  table += input.map(
+    item => row(keys.map(
+      (key, i) => pad(alignments[i], widths[i], stringify(item[key]))
+    ))
+  ).join('')
 
   return table
 }
 
-function pad (alignment, target, value) {
+function pad (alignment, width, what) {
   if (!alignment || alignment === 'LEFT') {
-    return padEnd(value, target)
+    return padEnd(what, width)
   }
 
   if (alignment === 'RIGHT') {
-    return padStart(value, target)
+    return padStart(what, width)
   }
 
   // CENTER
-  const remainder = (target - value.length) % 2
-  const sides = (target - value.length - remainder) / 2
+  const remainder = (width - what.length) % 2
+  const sides = (width - what.length - remainder) / 2
 
-  return repeat(' ', sides) + value + repeat(' ', sides + remainder)
+  return repeat(' ', sides) + what + repeat(' ', sides + remainder)
 }
 
-function row (v) {
-  if (Array.isArray(v)) {
-    v = v.join(' | ')
-  }
-
-  return '| ' + v + ' |' + os.EOL
+function row (cells) {
+  return '| ' + cells.join(' | ') + ' |' + os.EOL
 }
 
 function repeat (what, times) {
