@@ -28,6 +28,7 @@
     "index.js"
   ],
   "scripts": {
+    "lint": "standard | snazzy",
     "test": "ava",
     "test:watch": "ava -w"
   },
