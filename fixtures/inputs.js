@@ -26,7 +26,7 @@ module.exports = {
       '| --------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------- |',
       '| trilogy   | [citycide/trilogy](//github.com/citycide/trilogy)     | No-hassle SQLite with type-casting schema models and support for native & pure JS backends. |',
       '| strat     | [citycide/strat](//github.com/citycide/strat)         | Functional-ish JavaScript string formatting, with inspirations from Python.                 |',
-      '| tablemark | [citycide/tablemark](//github.com/citycide/tablemark) | Generate markdown tables from JSON data.                                                    |',
+      '| tablemark | [citycide/tablemark](//github.com/citycide/tablemark) | Generate markdown tables from JSON data.                                                    |'
     ].join(os.EOL) + os.EOL
   },
   alignments: {
@@ -47,7 +47,7 @@ module.exports = {
       '| :---- | ----: | :-----: |',
       '| Bob   |    21 |  false  |',
       '| Sarah |    22 |  true   |',
-      '| Lee   |    23 |  true   |',
+      '| Lee   |    23 |  true   |'
     ].join(os.EOL) + os.EOL
   },
   columns: {
@@ -68,7 +68,7 @@ module.exports = {
       '| ----- | ------ | ------- |',
       '| Bob   | 21     | false   |',
       '| Sarah | 22     | true    |',
-      '| Lee   | 23     | true    |',
+      '| Lee   | 23     | true    |'
     ].join(os.EOL) + os.EOL
   },
   casing: {
@@ -78,14 +78,14 @@ module.exports = {
       { name: 'Lee', age: 23, isCool: true }
     ],
     options: {
-      caseHeaders: false,
+      caseHeaders: false
     },
     expected: [
       '| name  | age   | isCool |',
       '| ----- | ----- | ------ |',
       '| Bob   | 21    | false  |',
       '| Sarah | 22    | true   |',
-      '| Lee   | 23    | true   |',
+      '| Lee   | 23    | true   |'
     ].join(os.EOL) + os.EOL
   },
   coerce: {
@@ -95,7 +95,7 @@ module.exports = {
       { name: 'Lee', age: 23, isCool: true }
     ],
     options: {
-      stringify: function stringify(v){
+      stringify (v) {
         if (v === true) return 'Yes'
         if (v === false) return 'No'
         return String(v)
@@ -106,7 +106,7 @@ module.exports = {
       '| ----- | ----- | ------- |',
       '| Bob   | 21    | No      |',
       '| Sarah | 22    | Yes     |',
-      '| Lee   | 23    | Yes     |',
+      '| Lee   | 23    | Yes     |'
     ].join(os.EOL) + os.EOL
   }
 }
