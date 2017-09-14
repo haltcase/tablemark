@@ -97,7 +97,7 @@ name.
 
 ## contributing
 
-Search the [issues](https://github.com/citycide/tablemark-cli) if you come
+Search the [issues](https://github.com/citycide/tablemark) if you come
 across any trouble, open a new one if it hasn't been posted, or, if you're
 able, open a [pull request](https://help.github.com/articles/about-pull-requests/).
 Contributions of any kind are welcome in this project.
