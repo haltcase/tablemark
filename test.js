@@ -52,3 +52,8 @@ test('pipes in content', t => {
   const result = fn(cases.pipes.input, cases.pipes.options)
   t.is(result, cases.pipes.expected)
 })
+
+test('color', t => {
+  const result = fn(cases.color.input, cases.color.options)
+  t.is(result, cases.color.expected)
+})

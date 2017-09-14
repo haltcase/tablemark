@@ -193,5 +193,22 @@ module.exports = {
       '| --------- |',
       '| yes \\| no |'
     ].join(os.EOL) + os.EOL
+  },
+  color: {
+    input: [
+      { name: 'Bob' },
+      { name: 'Sarah' },
+      { name: 'Lee' }
+    ],
+    options: {
+      color: true
+    },
+    expected: [
+      '\x1b[1m| Name  |\x1b[22m',
+      '\x1b[1m\x1b[22m\x1b[90m| ----- |\x1b[39m',
+      '\x1b[90m\x1b[39m| Bob   |',
+      '\x1b[90m| Sarah |\x1b[39m',
+      '\x1b[90m\x1b[39m| Lee   |'
+    ].join(os.EOL) + os.EOL
   }
 }
