@@ -183,5 +183,15 @@ module.exports = {
       '| Sarah | 22    | true  |',
       '| Lee   | 23    | true  |'
     ].join(os.EOL) + os.EOL
+  },
+  pipes: {
+    input: [
+      { content: 'yes | no' }
+    ],
+    expected: [
+      '| Content   |',
+      '| --------- |',
+      '| yes \\| no |'
+    ].join(os.EOL) + os.EOL
   }
 }

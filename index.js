@@ -14,7 +14,7 @@ module.exports = (input, options) => {
   }
 
   options = Object.assign({
-    stringify: v => typeof v === 'undefined' ? '' : String(v)
+    stringify: toString
   }, options, {
     wrap: Object.assign({
       width: Infinity,
@@ -164,4 +164,10 @@ function padStart (what, target, start) {
 
 function padEnd (what, target, start) {
   return what + repeat(' ', target - what.length)
+}
+
+function toString (v) {
+  if (typeof v === 'undefined') return ''
+
+  return String(v).replace(/\|/g, '\\|')
 }

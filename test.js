@@ -47,3 +47,8 @@ test('gutters', t => {
   const result = fn(cases.gutters.input, cases.gutters.options)
   t.is(result, cases.gutters.expected)
 })
+
+test('pipes in content', t => {
+  const result = fn(cases.pipes.input, cases.pipes.options)
+  t.is(result, cases.pipes.expected)
+})
