@@ -39,6 +39,33 @@ tablemark([
 | Sarah | 22    | true    |
 | Lee   | 23    | true    |
 
+## api
+
+```js
+tablemark(input[, options = {}])
+```
+
+> **Arguments**
+
+- `{Array<Object>} input`: the data to table-ify
+- `{Object} [options = {}]`
+
+| key            | type         | default    | description                                    |
+| :------------: | :----------: | :--------: | ---------------------------------------------- |
+| `columns`      | `<Array>`    | -          | Array of column descriptors.                   |
+| `caseHeaders`  | `<Boolean>`  | `true`     | Sentence case headers derived from keys.       |
+| `stringify`    | `<Function>` | -          | Provide a custom "toString" function.          |
+| `wrap.width`   | `<Number>`   | `Infinity` | Wrap texts at this length.                     |
+| `wrap.gutters` | `<Boolean>`  | `false`    | Add sides (`\| <content> \|`) to wrapped rows. |
+
+The `columns` array can either contain objects, in which case their
+`name` and `align` properties will be used to alter the display of
+the column in the table, or any other type which will be coerced
+to a string if necessary and used as a replacement for the column
+name.
+
+### `columns`
+
 ```js
 tablemark([
   { name: 'Bob', age: 21, isCool: false },
@@ -67,35 +94,36 @@ tablemark([
 | Sarah      |   22    | true          |
 | Lee        |   23    | true          |
 
-## api
-
-### tablemark
+### `stringify`
 
 ```js
-tablemark(input[, options = {}])
+tablemark([
+  { name: 'Bob', pet_owner: true, studying: false },
+  { name: 'Sarah', pet_owner: false, studying: true },
+  { name: 'Sarah', pet_owner: true, studying: true }
+], {
+  stringify,
+  columns: [
+    { align: 'left' },
+    { align: 'center' },
+    { align: 'center' }
+  ]
+})
+
+function stringify (v) {
+  if (v === true) return '✔'
+  if (!v) return ''
+  return v
+}
+
+// | Name  | Pet owner | Studying |
+// | :---- | :-------: | :------: |
+// | Bob   |     ✔︎     |          |
+// | Sarah |           |    ✔     |
+// | Lee   |     ✔     |    ✔     |
 ```
 
-> **Arguments**
-
-- `{Array<Object>} input`: the data to table-ify
-- `{Object} [options = {}]`
-
-| key            | type         | default    | description                                    |
-| :------------: | :----------: | :--------: | ---------------------------------------------- |
-| `columns`      | `<Array>`    | -          | Array of column descriptors.                   |
-| `caseHeaders`  | `<Boolean>`  | `true`     | Sentence case headers derived from keys.       |
-| `stringify`    | `<Function>` | -          | Provide a custom "toString" function.          |
-| `wrap.width`   | `<Number>`   | `Infinity` | Wrap texts at this length.                     |
-| `wrap.gutters` | `<Boolean>`  | `false`    | Add sides (`\| <content> \|`) to wrapped rows. |
-
-
-The `columns` array can either contain objects, in which case their
-`name` and `align` properties will be used to alter the display of
-the column in the table, or any other type which will be coerced
-to a string if necessary and used as a replacement for the column
-name.
-
-## text wrapping
+### `wrap`
 
 To output valid [GitHub Flavored Markdown](https://github.github.com/gfm/) a
 cell must not contain newlines. Consider replacing those with `<br />` (e.g.
