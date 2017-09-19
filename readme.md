@@ -24,20 +24,20 @@ tablemark([
   { name: 'Lee', age: 23, isCool: true }
 ])
 
-// | Name  | Age   | IsCool |
-// | ----- | ----- | ------ |
-// | Bob   | 21    | false  |
-// | Sarah | 22    | true   |
-// | Lee   | 23    | true   |
+// | Name  | Age   | Is cool |
+// | ----- | ----- | ------- |
+// | Bob   | 21    | false   |
+// | Sarah | 22    | true    |
+// | Lee   | 23    | true    |
 ```
 
 ... displays as:
 
-| Name  | Age   | IsCool |
-| ----- | ----- | ------ |
-| Bob   | 21    | false  |
-| Sarah | 22    | true   |
-| Lee   | 23    | true   |
+| Name  | Age   | Is cool |
+| ----- | ----- | ------- |
+| Bob   | 21    | false   |
+| Sarah | 22    | true    |
+| Lee   | 23    | true    |
 
 ```js
 tablemark([
@@ -70,8 +70,9 @@ tablemark([
 ## api
 
 ### tablemark
+
 ```js
-tablemark(input, [options = {}])
+tablemark(input[, options = {}])
 ```
 
 > **Arguments**
