@@ -44,9 +44,9 @@ module.exports = (input, options) => {
 
   const widths = input.reduce(
     (sizes, item) => keys.map(
-      (key, i) => max(width(stringify(item[key]), columnsMaxWidth), sizes[i])
+      (key, i) => Math.max(width(stringify(item[key]), columnsMaxWidth), sizes[i])
     ),
-    titles.map(t => max(columnsWidthMin, width(t, columnsMaxWidth)))
+    titles.map(t => Math.max(columnsWidthMin, width(t, columnsMaxWidth)))
   )
 
   const alignments = keys.map((key, i) => {
@@ -167,8 +167,4 @@ function padStart (what, target, start) {
 
 function padEnd (what, target, start) {
   return what + repeat(' ', target - what.length)
-}
-
-function max (a, b) {
-  return a > b ? a : b
 }
