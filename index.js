@@ -97,16 +97,13 @@ function row (alignments, widths, columns, gutters) {
 
   for (let h = 0; h < width; h++) {
     const cells = values[h] = split(columns[h], widths[h])
-
     if (cells.length > height) height = cells.length
-
     first[h] = pad(alignments[h], widths[h], cells[0])
   }
 
   if (height === 1) return line(first, true)
 
   const lines = new Array(height)
-
   lines[0] = line(first, true)
 
   for (let v = 1; v < height; v++) {
