@@ -2,8 +2,10 @@
 
 const os = require('os')
 const sentence = require('sentence-case')
+const split = require('split-text-to-chunks')
 
-const columnWidthMin = 5
+const width = split.width
+const columnsWidthMin = 5
 const ALIGN = [ 'LEFT', 'CENTER', 'RIGHT' ]
 
 module.exports = (input, options) => {
@@ -13,9 +15,17 @@ module.exports = (input, options) => {
 
   options = Object.assign({
     stringify: v => typeof v === 'undefined' ? '' : String(v)
-  }, options)
+  }, options, {
+    wrap: Object.assign({
+      width: Infinity,
+      gutters: false
+    }, options && options.wrap)
+  })
 
   const stringify = options.stringify
+  const columnsMaxWidth = options.wrap.width
+  const gutters = options.wrap.gutters
+
   const keys = Object.keys(input[0])
 
   const titles = keys.map((key, i) => {
@@ -34,9 +44,9 @@ module.exports = (input, options) => {
 
   const widths = input.reduce(
     (sizes, item) => keys.map(
-      (key, i) => Math.max(columnWidthMin, stringify(item[key]).length, sizes[i])
+      (key, i) => Math.max(width(stringify(item[key]), columnsMaxWidth), sizes[i])
     ),
-    titles.map(t => t.length)
+    titles.map(t => Math.max(columnsWidthMin, width(t, columnsMaxWidth)))
   )
 
   const alignments = keys.map((key, i) => {
@@ -58,27 +68,74 @@ module.exports = (input, options) => {
   let table = ''
 
   // header line
-  table += row(titles.map(
-    (title, i) => pad(alignments[i], widths[i], title)
-  ))
+  table += row(alignments, widths, titles, gutters)
 
   // header separator
-  table += row(alignments.map(
+  table += line(alignments.map(
     (align, i) => (
       (align === 'LEFT' || align === 'CENTER' ? ':' : '-') +
       repeat('-', widths[i] - 2) +
       (align === 'RIGHT' || align === 'CENTER' ? ':' : '-')
     )
-  ))
+  ), true)
 
   // table body
   table += input.map(
-    item => row(keys.map(
-      (key, i) => pad(alignments[i], widths[i], stringify(item[key]))
-    ))
+    (item, i) => row(alignments, widths, keys.map(
+      key => stringify(item[key])
+    ), gutters)
   ).join('')
 
   return table
+}
+
+function row (alignments, widths, columns, gutters) {
+  const width = columns.length
+  const values = new Array(width)
+  const first = new Array(width)
+  let height = 1
+
+  for (let h = 0; h < width; h++) {
+    const cells = values[h] = split(columns[h], widths[h])
+    if (cells.length > height) height = cells.length
+    first[h] = pad(alignments[h], widths[h], cells[0])
+  }
+
+  if (height === 1) return line(first, true)
+
+  const lines = new Array(height)
+  lines[0] = line(first, true)
+
+  for (let v = 1; v < height; v++) {
+    lines[v] = new Array(width)
+  }
+
+  for (let h = 0; h < width; h++) {
+    const cells = values[h]
+    let v = 1
+
+    for (;v < cells.length; v++) {
+      lines[v][h] = pad(alignments[h], widths[h], cells[v])
+    }
+
+    for (;v < height; v++) {
+      lines[v][h] = repeat(' ', widths[h])
+    }
+  }
+
+  for (let h = 1; h < height; h++) {
+    lines[h] = line(lines[h], gutters)
+  }
+
+  return lines.join('')
+}
+
+function line (columns, gutters) {
+  return (
+    (gutters ? '| ' : '  ') +
+    columns.join((gutters ? ' | ' : '   ')) +
+    (gutters ? ' |' : '  ') + os.EOL
+  )
 }
 
 function pad (alignment, width, what) {
@@ -95,10 +152,6 @@ function pad (alignment, width, what) {
   const sides = (width - what.length - remainder) / 2
 
   return repeat(' ', sides) + what + repeat(' ', sides + remainder)
-}
-
-function row (cells) {
-  return '| ' + cells.join(' | ') + ' |' + os.EOL
 }
 
 function repeat (what, times) {
