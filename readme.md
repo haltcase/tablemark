@@ -95,7 +95,7 @@ name.
 
 ## text wrapping
 
-To output valid [GitHub Flavoured Markdown](https://github.github.com/gfm/) a
+To output valid [GitHub Flavored Markdown](https://github.github.com/gfm/) a
 cell must not contain newlines. Consider replacing those with `<br />` (e.g.
 using the `stringify` option).
 
@@ -105,7 +105,7 @@ adjacent line:
 ```js
 tablemark([
   { star: false, name: 'Benjamin' },
-  { star: true, name: 'Jet Li' },
+  { star: true, name: 'Jet Li' }
 ], { wrap: { width: 5 } })
 
 // | Star  | Name  |
@@ -121,7 +121,7 @@ Enable `wrap.gutters` to add pipes on all lines:
 ```js
 tablemark([
   { star: false, name: 'Benjamin' },
-  { star: true, name: 'Jet Li' },
+  { star: true, name: 'Jet Li' }
 ], { wrap: { width: 5, gutters: true } })
 
 // | Star  | Name  |

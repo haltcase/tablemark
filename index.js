@@ -14,12 +14,12 @@ module.exports = (input, options) => {
   }
 
   options = Object.assign({
-    stringify: v => typeof v === 'undefined' ? '' : String(v),
+    stringify: v => typeof v === 'undefined' ? '' : String(v)
   }, options, {
     wrap: Object.assign({
       width: Infinity,
-      gutters: false,
-    }, options && options.wrap),
+      gutters: false
+    }, options && options.wrap)
   })
 
   const stringify = options.stringify
@@ -95,12 +95,12 @@ function row (alignments, widths, columns, gutters) {
   const first = new Array(width)
   let height = 1
 
-  for (let i = 0;i < width;i++){
-    const cell = values[i] = split(columns[i], widths[i])
+  for (let h = 0; h < width; h++) {
+    const cells = values[h] = split(columns[h], widths[h])
 
-    if (cell.length > height) height = cell.length
+    if (cells.length > height) height = cells.length
 
-    first[i] = pad(alignments[i], widths[i], cell[0])
+    first[h] = pad(alignments[h], widths[h], cells[0])
   }
 
   if (height === 1) return line(first, true)
@@ -109,25 +109,25 @@ function row (alignments, widths, columns, gutters) {
 
   lines[0] = line(first, true)
 
-  for (let i = 1;i < height;i++){
-    lines[i] = new Array(width)
+  for (let v = 1; v < height; v++) {
+    lines[v] = new Array(width)
   }
 
-  for (let i = 0;i < width;i++){
-    const cells = values[i]
-    let u = 1
+  for (let h = 0; h < width; h++) {
+    const cells = values[h]
+    let v = 1
 
-    for (;u < cells.length;u++){
-      lines[u][i] = pad(alignments[i], widths[i], cells[u])
+    for (;v < cells.length; v++) {
+      lines[v][h] = pad(alignments[h], widths[h], cells[v])
     }
 
-    for (;u < height;u++){
-      lines[u][i] = repeat(' ', widths[i])
+    for (;v < height; v++) {
+      lines[v][h] = repeat(' ', widths[h])
     }
   }
 
-  for (let i = 1;i < height;i++){
-    lines[i] = line(lines[i], gutters)
+  for (let h = 1; h < height; h++) {
+    lines[h] = line(lines[h], gutters)
   }
 
   return lines.join('')
@@ -135,9 +135,9 @@ function row (alignments, widths, columns, gutters) {
 
 function line (columns, gutters) {
   return (
-    (gutters?'| ':'  ') +
-    columns.join((gutters?' | ':'   ')) +
-    (gutters?' |':'  ') + os.EOL
+    (gutters ? '| ' : '  ') +
+    columns.join((gutters ? ' | ' : '   ')) +
+    (gutters ? ' |' : '  ') + os.EOL
   )
 }
 
