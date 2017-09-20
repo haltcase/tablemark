@@ -79,13 +79,14 @@ tablemark(input, [options = {}])
 - `{Array<Object>} input`: the data to table-ify
 - `{Object} [options = {}]`
 
-| key            | type         | default    | description                                  |
-| :------------: | :----------: | :--------: | -------------------------------------------- |
-| `columns`      | `<Array>`    | -          | Array of column descriptors.                 |
-| `caseHeaders`  | `<Boolean>`  | `true`     | Sentence case headers derived from keys.     |
-| `stringify`    | `<Function>` | -          | Provide a custom "toString" function.        |
-| `wrap.width`   | `<Number>`   | `Infinity` | Wrap texts at this length.                   |
-| `wrap.gutters` | `<Boolean>`  | `false`    | Add sides (`| <content> |`) to wrapped rows. |
+| key            | type         | default    | description                                    |
+| :------------: | :----------: | :--------: | ---------------------------------------------- |
+| `columns`      | `<Array>`    | -          | Array of column descriptors.                   |
+| `caseHeaders`  | `<Boolean>`  | `true`     | Sentence case headers derived from keys.       |
+| `stringify`    | `<Function>` | -          | Provide a custom "toString" function.          |
+| `wrap.width`   | `<Number>`   | `Infinity` | Wrap texts at this length.                     |
+| `wrap.gutters` | `<Boolean>`  | `false`    | Add sides (`\| <content> \|`) to wrapped rows. |
+
 
 The `columns` array can either contain objects, in which case their
 `name` and `align` properties will be used to alter the display of
