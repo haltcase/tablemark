@@ -57,6 +57,7 @@ tablemark(input[, options = {}])
 | `stringify`    | `<Function>` | -          | Provide a custom "toString" function.          |
 | `wrap.width`   | `<Number>`   | `Infinity` | Wrap texts at this length.                     |
 | `wrap.gutters` | `<Boolean>`  | `false`    | Add sides (`\| <content> \|`) to wrapped rows. |
+| `color`        | `<Boolean>`  | `false`    | Style with ANSI escape codes.                  |
 
 The `columns` array can either contain objects, in which case their
 `name` and `align` properties will be used to alter the display of

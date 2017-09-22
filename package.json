@@ -38,6 +38,7 @@
     "standard": "^10.0.2"
   },
   "dependencies": {
+    "chalk": "^2.1.0",
     "sentence-case": "^2.1.1",
     "split-text-to-chunks": "^1.0.0"
   }

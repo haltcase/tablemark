@@ -3,6 +3,7 @@
 const os = require('os')
 const sentence = require('sentence-case')
 const split = require('split-text-to-chunks')
+const chalk = require('chalk')
 
 const width = split.width
 const columnsWidthMin = 5
@@ -14,7 +15,8 @@ module.exports = (input, options) => {
   }
 
   options = Object.assign({
-    stringify: toString
+    stringify: toString,
+    color: false
   }, options, {
     wrap: Object.assign({
       width: Infinity,
@@ -25,6 +27,7 @@ module.exports = (input, options) => {
   const stringify = options.stringify
   const columnsMaxWidth = options.wrap.width
   const gutters = options.wrap.gutters
+  const color = options.color
 
   const keys = Object.keys(input[0])
 
@@ -68,7 +71,9 @@ module.exports = (input, options) => {
   let table = ''
 
   // header line
-  table += row(alignments, widths, titles, gutters)
+  table += color
+    ? chalk.bold(row(alignments, widths, titles, gutters))
+    : row(alignments, widths, titles, gutters)
 
   // header separator
   table += line(alignments.map(
@@ -77,19 +82,19 @@ module.exports = (input, options) => {
       repeat('-', widths[i] - 2) +
       (align === 'RIGHT' || align === 'CENTER' ? ':' : '-')
     )
-  ), true)
+  ), true, color, true)
 
   // table body
   table += input.map(
     (item, i) => row(alignments, widths, keys.map(
       key => stringify(item[key])
-    ), gutters)
+    ), gutters, color, i % 2 === 1)
   ).join('')
 
   return table
 }
 
-function row (alignments, widths, columns, gutters) {
+function row (alignments, widths, columns, gutters, color, odd) {
   const width = columns.length
   const values = new Array(width)
   const first = new Array(width)
@@ -101,10 +106,10 @@ function row (alignments, widths, columns, gutters) {
     first[h] = pad(alignments[h], widths[h], cells[0])
   }
 
-  if (height === 1) return line(first, true)
+  if (height === 1) return line(first, true, color, odd)
 
   const lines = new Array(height)
-  lines[0] = line(first, true)
+  lines[0] = line(first, true, color, odd)
 
   for (let v = 1; v < height; v++) {
     lines[v] = new Array(width)
@@ -124,13 +129,21 @@ function row (alignments, widths, columns, gutters) {
   }
 
   for (let h = 1; h < height; h++) {
-    lines[h] = line(lines[h], gutters)
+    lines[h] = line(lines[h], gutters, color, odd)
   }
 
   return lines.join('')
 }
 
-function line (columns, gutters) {
+function line (columns, gutters, color, odd) {
+  if (color && odd) {
+    return chalk.gray(
+      (gutters ? '| ' : '  ') +
+      columns.join((gutters ? ' | ' : '   ')) +
+      (gutters ? ' |' : '  ') + os.EOL
+    )
+  }
+
   return (
     (gutters ? '| ' : '  ') +
     columns.join((gutters ? ' | ' : '   ')) +
