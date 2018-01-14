@@ -30,9 +30,11 @@
   "scripts": {
     "lint": "standard | snazzy",
     "test": "ava",
-    "test:watch": "ava -w"
+    "watch": "ava -w",
+    "changelog": "changelog"
   },
   "devDependencies": {
+    "@citycide/changelog": "^1.0.0",
     "ava": "^0.20.0",
     "snazzy": "^7.0.0",
     "standard": "^10.0.2"
