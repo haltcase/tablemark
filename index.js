@@ -6,7 +6,7 @@ const split = require('split-text-to-chunks')
 
 const width = split.width
 const columnsWidthMin = 5
-const ALIGN = [ 'LEFT', 'CENTER', 'RIGHT' ]
+const ALIGN = ['LEFT', 'CENTER', 'RIGHT']
 const PIPE_REGEX = /\|/g
 
 module.exports = (input, options) => {
