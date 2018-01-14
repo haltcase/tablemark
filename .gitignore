@@ -1,2 +1,11 @@
+# ide configurations
+.c9
 .idea
+.vscode
+
+# lock files
+npm-shrinkwrap.json
+package-lock.json
+yarn.lock
+
 node_modules
