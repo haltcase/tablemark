@@ -7,6 +7,7 @@ const split = require('split-text-to-chunks')
 const width = split.width
 const columnsWidthMin = 5
 const ALIGN = [ 'LEFT', 'CENTER', 'RIGHT' ]
+const PIPE_REGEX = /\|/g
 
 module.exports = (input, options) => {
   if (!Array.isArray(input)) {
@@ -169,5 +170,5 @@ function padEnd (what, target, start) {
 function toString (v) {
   if (typeof v === 'undefined') return ''
 
-  return String(v).replace(/\|/g, '\\|')
+  return String(v).replace(PIPE_REGEX, '\\|')
 }
