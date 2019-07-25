@@ -30,8 +30,8 @@
   "scripts": {
     "lint": "standard | snazzy",
     "test": "ava",
-    "watch": "ava -w",
-    "changelog": "changelog"
+    "changelog": "changelog",
+    "prepublishOnly": "npm run lint && npm test"
   },
   "devDependencies": {
     "@citycide/changelog": "^1.0.0",
