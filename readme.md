@@ -8,7 +8,7 @@ for renaming columns and left, center, or right-aligning them.
 ## installation
 
 ```console
-npm i tablemark
+yarn add tablemark
 ```
 
 ## usage
