@@ -2,16 +2,9 @@
   "name": "tablemark",
   "version": "1.2.0",
   "description": "Generate markdown tables from JSON data.",
-  "author": {
-    "name": "Bo Lingen",
-    "email": "lingenbw@gmail.com",
-    "url": "https://github.com/citycide"
-  },
+  "author": "Bo Lingen <lingenbw@gmail.com> (https://github.com/citycide)",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/citycide/tablemark.git"
-  },
+  "repository":  "https://github.com/citycide/tablemark",
   "homepage": "https://github.com/citycide/tablemark",
   "bugs": "https://github.com/citycide/tablemark/issues",
   "engines": {
