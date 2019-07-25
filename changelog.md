@@ -1,3 +1,18 @@
+<a name="2.0.0"></a>
+## [`2.0.0`](https://github.com/citycide/tablemark/compare/v1.2.0...v2.0.0) (2019-07-25)
+
+
+###### FEATURES
+
+* require node >= 8.10 ([a0060ba](https://github.com/citycide/tablemark/commit/a0060ba))
+
+
+###### BREAKING CHANGES
+
+* support for node 4, 6, and < 8.10 has been dropped.
+
+---
+
 <a name="1.2.0"></a>
 ### [`1.2.0`](https://github.com/citycide/tablemark/compare/v1.1.0...v1.2.0) (2018-01-14)
 
