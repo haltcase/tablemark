@@ -1,6 +1,6 @@
 'use strict'
 
-const os = require('os')
+const { EOL } = require('os')
 
 module.exports = {
   standard: {
@@ -27,7 +27,7 @@ module.exports = {
       '| trilogy   | [citycide/trilogy](//github.com/citycide/trilogy)     | No-hassle SQLite with type-casting schema models and support for native & pure JS backends. |',
       '| strat     | [citycide/strat](//github.com/citycide/strat)         | Functional-ish JavaScript string formatting, with inspirations from Python.                 |',
       '| tablemark | [citycide/tablemark](//github.com/citycide/tablemark) | Generate markdown tables from JSON data.                                                    |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   },
   alignments: {
     input: [
@@ -48,7 +48,7 @@ module.exports = {
       '| Bob   |    21 |  false  |',
       '| Sarah |    22 |  true   |',
       '| Lee   |    23 |  true   |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   },
   columns: {
     input: [
@@ -69,7 +69,7 @@ module.exports = {
       '| Bob   | 21     | false   |',
       '| Sarah | 22     | true    |',
       '| Lee   | 23     | true    |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   },
   casing: {
     input: [
@@ -86,7 +86,7 @@ module.exports = {
       '| Bob   | 21    | false  |',
       '| Sarah | 22    | true   |',
       '| Lee   | 23    | true   |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   },
   coerce: {
     input: [
@@ -107,7 +107,7 @@ module.exports = {
       '| Bob   | 21    | No      |',
       '| Sarah | 22    | Yes     |',
       '| Lee   | 23    | Yes     |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   },
   wrap: {
     input: [
@@ -129,7 +129,7 @@ module.exports = {
       // no wrap
       '| Sarah | 22    | true  |',
       '| Lee   | 23    | true  |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   },
   newlines: {
     input: [
@@ -144,7 +144,7 @@ module.exports = {
       '  or Ben                      ',
       '| Sarah    | 22    | true    |',
       '| Lee      | 23    | true    |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   },
   wrapAndNewlines: {
     input: [
@@ -163,7 +163,7 @@ module.exports = {
       '  Ben                         ',
       '| Sarah    | 22    | true    |',
       '| Lee      | 23    | true    |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   },
   gutters: {
     input: [
@@ -182,7 +182,7 @@ module.exports = {
       '| min   |       |       |',
       '| Sarah | 22    | true  |',
       '| Lee   | 23    | true  |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   },
   pipes: {
     input: [
@@ -192,6 +192,6 @@ module.exports = {
       '| Content   |',
       '| --------- |',
       '| yes \\| no |'
-    ].join(os.EOL) + os.EOL
+    ].join(EOL) + EOL
   }
 }

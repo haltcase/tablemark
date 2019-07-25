@@ -1,13 +1,80 @@
 'use strict'
 
-const os = require('os')
+const { EOL } = require('os')
 const sentence = require('sentence-case')
 const split = require('split-text-to-chunks')
 
-const width = split.width
+const { width } = split
 const columnsWidthMin = 5
-const ALIGN = ['LEFT', 'CENTER', 'RIGHT']
-const PIPE_REGEX = /\|/g
+const alignmentOptions = new Set(['LEFT', 'CENTER', 'RIGHT'])
+const pipeRegex = /\|/g
+
+const pad = (alignment, width, what) => {
+  if (!alignment || alignment === 'LEFT') {
+    return what.padEnd(width)
+  }
+
+  if (alignment === 'RIGHT') {
+    return what.padStart(width)
+  }
+
+  // center alignment
+  const remainder = (width - what.length) % 2
+  const sides = (width - what.length - remainder) / 2
+
+  return ' '.repeat(sides) + what + ' '.repeat(sides + remainder)
+}
+
+const toString = v => {
+  if (typeof v === 'undefined') return ''
+  return String(v).replace(pipeRegex, '\\|')
+}
+
+const line = (columns, gutters) =>
+  (gutters ? '| ' : '  ') +
+  columns.join((gutters ? ' | ' : '   ')) +
+  (gutters ? ' |' : '  ') + EOL
+
+const row = (alignments, widths, columns, gutters) => {
+  const width = columns.length
+  const values = new Array(width)
+  const first = new Array(width)
+  let height = 1
+
+  for (let h = 0; h < width; h++) {
+    const cells = values[h] = split(columns[h], widths[h])
+    if (cells.length > height) height = cells.length
+    first[h] = pad(alignments[h], widths[h], cells[0])
+  }
+
+  if (height === 1) return line(first, true)
+
+  const lines = new Array(height)
+  lines[0] = line(first, true)
+
+  for (let v = 1; v < height; v++) {
+    lines[v] = new Array(width)
+  }
+
+  for (let h = 0; h < width; h++) {
+    const cells = values[h]
+    let v = 1
+
+    for (;v < cells.length; v++) {
+      lines[v][h] = pad(alignments[h], widths[h], cells[v])
+    }
+
+    for (;v < height; v++) {
+      lines[v][h] = ' '.repeat(widths[h])
+    }
+  }
+
+  for (let h = 1; h < height; h++) {
+    lines[h] = line(lines[h], gutters)
+  }
+
+  return lines.join('')
+}
 
 module.exports = (input, options) => {
   if (!Array.isArray(input)) {
@@ -23,9 +90,8 @@ module.exports = (input, options) => {
     }, options && options.wrap)
   })
 
-  const stringify = options.stringify
-  const columnsMaxWidth = options.wrap.width
-  const gutters = options.wrap.gutters
+  const { stringify } = options
+  const { gutters, width: columnsMaxWidth } = options.wrap
 
   const keys = Object.keys(input[0])
 
@@ -58,7 +124,7 @@ module.exports = (input, options) => {
     ) {
       const align = String(options.columns[i].align).toUpperCase()
 
-      if (ALIGN.indexOf(align) === -1) {
+      if (!alignmentOptions.has(align)) {
         throw new TypeError(`Unknown alignment, got ${options.columns[i].align}`)
       }
 
@@ -75,7 +141,7 @@ module.exports = (input, options) => {
   table += line(alignments.map(
     (align, i) => (
       (align === 'LEFT' || align === 'CENTER' ? ':' : '-') +
-      repeat('-', widths[i] - 2) +
+      '-'.repeat(widths[i] - 2) +
       (align === 'RIGHT' || align === 'CENTER' ? ':' : '-')
     )
   ), true)
@@ -88,87 +154,4 @@ module.exports = (input, options) => {
   ).join('')
 
   return table
-}
-
-function row (alignments, widths, columns, gutters) {
-  const width = columns.length
-  const values = new Array(width)
-  const first = new Array(width)
-  let height = 1
-
-  for (let h = 0; h < width; h++) {
-    const cells = values[h] = split(columns[h], widths[h])
-    if (cells.length > height) height = cells.length
-    first[h] = pad(alignments[h], widths[h], cells[0])
-  }
-
-  if (height === 1) return line(first, true)
-
-  const lines = new Array(height)
-  lines[0] = line(first, true)
-
-  for (let v = 1; v < height; v++) {
-    lines[v] = new Array(width)
-  }
-
-  for (let h = 0; h < width; h++) {
-    const cells = values[h]
-    let v = 1
-
-    for (;v < cells.length; v++) {
-      lines[v][h] = pad(alignments[h], widths[h], cells[v])
-    }
-
-    for (;v < height; v++) {
-      lines[v][h] = repeat(' ', widths[h])
-    }
-  }
-
-  for (let h = 1; h < height; h++) {
-    lines[h] = line(lines[h], gutters)
-  }
-
-  return lines.join('')
-}
-
-function line (columns, gutters) {
-  return (
-    (gutters ? '| ' : '  ') +
-    columns.join((gutters ? ' | ' : '   ')) +
-    (gutters ? ' |' : '  ') + os.EOL
-  )
-}
-
-function pad (alignment, width, what) {
-  if (!alignment || alignment === 'LEFT') {
-    return padEnd(what, width)
-  }
-
-  if (alignment === 'RIGHT') {
-    return padStart(what, width)
-  }
-
-  // CENTER
-  const remainder = (width - what.length) % 2
-  const sides = (width - what.length - remainder) / 2
-
-  return repeat(' ', sides) + what + repeat(' ', sides + remainder)
-}
-
-function repeat (what, times) {
-  return new Array(times).fill(what).join('')
-}
-
-function padStart (what, target, start) {
-  return repeat(' ', target - what.length) + what
-}
-
-function padEnd (what, target, start) {
-  return what + repeat(' ', target - what.length)
-}
-
-function toString (v) {
-  if (typeof v === 'undefined') return ''
-
-  return String(v).replace(PIPE_REGEX, '\\|')
 }
