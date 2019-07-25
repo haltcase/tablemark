@@ -7,7 +7,7 @@ for renaming columns and left, center, or right-aligning them.
 
 ## installation
 
-```console
+```sh
 yarn add tablemark
 ```
 
