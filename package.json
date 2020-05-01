@@ -12,10 +12,13 @@
   },
   "keywords": [
     "markdown",
+    "table",
     "tables",
     "json",
     "convert",
-    "generate"
+    "generate",
+    "ghfm",
+    "tableify"
   ],
   "files": [
     "index.js"
