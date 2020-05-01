@@ -9,20 +9,20 @@ const columnsWidthMin = 5
 const alignmentOptions = new Set(['LEFT', 'CENTER', 'RIGHT'])
 const pipeRegex = /\|/g
 
-const pad = (alignment, width, what) => {
+const pad = (alignment, width, content) => {
   if (!alignment || alignment === 'LEFT') {
-    return what.padEnd(width)
+    return content.padEnd(width)
   }
 
   if (alignment === 'RIGHT') {
-    return what.padStart(width)
+    return content.padStart(width)
   }
 
   // center alignment
-  const remainder = (width - what.length) % 2
-  const sides = (width - what.length - remainder) / 2
+  const remainder = (width - content.length) % 2
+  const sides = (width - content.length - remainder) / 2
 
-  return ' '.repeat(sides) + what + ' '.repeat(sides + remainder)
+  return ' '.repeat(sides) + content + ' '.repeat(sides + remainder)
 }
 
 const toString = v => {
