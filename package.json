@@ -30,10 +30,10 @@
     "prepublishOnly": "npm run lint && npm test"
   },
   "devDependencies": {
-    "@citycide/changelog": "^1.1.0",
+    "@citycide/changelog": "^2.0.0",
     "ava": "^3.8.1",
     "snazzy": "^8.0.0",
-    "standard": "^13.0.2"
+    "standard": "^14.3.3"
   },
   "dependencies": {
     "sentence-case": "^3.0.3",
