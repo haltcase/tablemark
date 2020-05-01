@@ -1,7 +1,7 @@
 'use strict'
 
 const { EOL } = require('os')
-const sentence = require('sentence-case')
+const { sentenceCase } = require('sentence-case')
 const split = require('split-text-to-chunks')
 
 const { width } = split
@@ -106,7 +106,7 @@ module.exports = (input, options) => {
 
     if (options.caseHeaders === false) return key
 
-    return sentence(key)
+    return sentenceCase(key)
   })
 
   const widths = input.reduce(
