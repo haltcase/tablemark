@@ -41,22 +41,23 @@ tablemark([
 
 ## api
 
-```js
-tablemark(input[, options = {}])
+```ts
+tablemark (input: InputData, options?: TablemarkOptions): string
 ```
 
 > **Arguments**
 
-- `{Array<Object>} input`: the data to table-ify
-- `{Object} [options = {}]`
+* `InputData` input: the data to table-ify
+  * an array of objects or iterables
+* `TablemarkOptions` options:
 
-| key            | type         | default    | description                                    |
-| :------------: | :----------: | :--------: | ---------------------------------------------- |
-| `columns`      | `<Array>`    | -          | Array of column descriptors.                   |
-| `caseHeaders`  | `<Boolean>`  | `true`     | Sentence case headers derived from keys.       |
-| `stringify`    | `<Function>` | -          | Provide a custom "toString" function.          |
-| `wrap.width`   | `<Number>`   | `Infinity` | Wrap texts at this length.                     |
-| `wrap.gutters` | `<Boolean>`  | `false`    | Add sides (`\| <content> \|`) to wrapped rows. |
+  | key            | type         | default    | description                                    |
+  | :------------: | :----------: | :--------: | ---------------------------------------------- |
+  | `columns`      | `ColumnDescriptor[]` | - | Array of column descriptors.                    |
+  | `caseHeaders`  | `boolean`    | `true`     | Sentence case headers derived from keys.       |
+  | `stringify`    | `(input: any) => string` | - | Provide a custom "toString" function.       |
+  | `wrap.width`   | `number`     | `Infinity` | Wrap texts at this length.                     |
+  | `wrap.gutters` | `boolean`    | `false`    | Add sides (`\| <content> \|`) to wrapped rows. |
 
 The `columns` array can either contain objects, in which case their
 `name` and `align` properties will be used to alter the display of
@@ -64,7 +65,16 @@ the column in the table, or any other type which will be coerced
 to a string if necessary and used as a replacement for the column
 name.
 
-### `columns`
+> **Returns**
+
+`string`: the resulting markdown formatted table
+
+> **Throws**
+
+`TypeError`: when `input` is not an array<br />
+`TypeError`: when an unknown column alignment option is provided
+
+### `options.columns`
 
 ```js
 tablemark([
@@ -94,7 +104,7 @@ tablemark([
 | Sarah      |   22    | true          |
 | Lee        |   23    | true          |
 
-### `stringify`
+### `options.stringify`
 
 ```js
 tablemark([
@@ -123,7 +133,7 @@ function stringify (v) {
 // | Lee   |     ✔     |    ✔     |
 ```
 
-### `wrap`
+### `options.wrap`
 
 To output valid [GitHub Flavored Markdown](https://github.github.com/gfm/) a
 cell must not contain newlines. Consider replacing those with `<br />` (e.g.
