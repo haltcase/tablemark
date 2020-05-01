@@ -1,7 +1,9 @@
-import test from 'ava'
+'use strict'
 
-import fn from './'
-import cases from './fixtures/inputs'
+const test = require('ava')
+
+const fn = require('./')
+const cases = require('./fixtures/inputs')
 
 test('outputs the expected markdown', t => {
   const result = fn(cases.standard.input)
