@@ -164,7 +164,7 @@ tablemark([
 
 ## see also
 
-- [`tablemark-cli`](https://github.com/citycide/tablemark-cli) &ndash; use this module from the command line
+* [`tablemark-cli`](https://github.com/citycide/tablemark-cli) &ndash; use this module from the command line
 
 ## contributing
 

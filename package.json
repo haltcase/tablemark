@@ -4,7 +4,7 @@
   "description": "Generate markdown tables from JSON data.",
   "author": "Bo Lingen <lingenbw@gmail.com> (https://github.com/citycide)",
   "license": "MIT",
-  "repository":  "https://github.com/citycide/tablemark",
+  "repository": "https://github.com/citycide/tablemark",
   "homepage": "https://github.com/citycide/tablemark",
   "bugs": "https://github.com/citycide/tablemark/issues",
   "engines": {

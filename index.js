@@ -60,11 +60,11 @@ const row = (alignments, widths, columns, gutters) => {
     const cells = values[h]
     let v = 1
 
-    for (;v < cells.length; v++) {
+    for (; v < cells.length; v++) {
       lines[v][h] = pad(alignments[h], widths[h], cells[v])
     }
 
-    for (;v < height; v++) {
+    for (; v < height; v++) {
       lines[v][h] = ' '.repeat(widths[h])
     }
   }
