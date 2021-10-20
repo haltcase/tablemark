@@ -1,4 +1,4 @@
-# tablemark &middot; [![Version](https://flat.badgen.net/npm/v/tablemark)](https://www.npmjs.com/package/tablemark) [![License](https://flat.badgen.net/npm/license/tablemark)](https://www.npmjs.com/package/tablemark) [![Travis CI](https://flat.badgen.net/travis/citycide/tablemark)](https://travis-ci.org/citycide/tablemark) [![JavaScript Standard Style](https://flat.badgen.net/badge/code%20style/standard/green)](https://standardjs.com)
+# tablemark &middot; [![Version](https://flat.badgen.net/npm/v/tablemark)](https://www.npmjs.com/package/tablemark) [![License](https://flat.badgen.net/npm/license/tablemark)](https://www.npmjs.com/package/tablemark) [![TypeScript](https://flat.badgen.net/badge/written%20in/TypeScript/294E80)](http://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
 
 > Generate markdown tables from JSON data.
 
@@ -9,12 +9,16 @@ for renaming columns and left, center, or right-aligning them.
 
 ```sh
 yarn add tablemark
+
+# or
+
+npm install tablemark
 ```
 
 ## usage
 
 ```js
-const tablemark = require('tablemark')
+import tablemark from 'tablemark'
 ```
 
 ```js
@@ -25,7 +29,7 @@ tablemark([
 ])
 
 // | Name  | Age   | Is cool |
-// | ----- | ----- | ------- |
+// | :---- | :---- | :------ |
 // | Bob   | 21    | false   |
 // | Sarah | 22    | true    |
 // | Lee   | 23    | true    |
@@ -34,7 +38,7 @@ tablemark([
 ... displays as:
 
 | Name  | Age   | Is cool |
-| ----- | ----- | ------- |
+| :---- | :---- | :------ |
 | Bob   | 21    | false   |
 | Sarah | 22    | true    |
 | Lee   | 23    | true    |
@@ -55,9 +59,10 @@ tablemark (input: InputData, options?: TablemarkOptions): string
   | :------------: | :----------: | :--------: | ---------------------------------------------- |
   | `columns`      | `ColumnDescriptor[]` | - | Array of column descriptors.                    |
   | `caseHeaders`  | `boolean`    | `true`     | Sentence case headers derived from keys.       |
-  | `stringify`    | `(input: any) => string` | - | Provide a custom "toString" function.       |
-  | `wrap.width`   | `number`     | `Infinity` | Wrap texts at this length.                     |
-  | `wrap.gutters` | `boolean`    | `false`    | Add sides (`\| <content> \|`) to wrapped rows. |
+  | `toCellText`    | `(input: unknown) => string` | - | Provide a custom "toString" function.       |
+  | `wrapWidth`   | `number`     | `Infinity` | Wrap cell text at this length.                     |
+  | `wrapWithGutters` | `boolean`    | `false`    | Add sides (`\| <content> \|`) to wrapped rows. |
+  | `lineEnding` | `string` | `"\n"` | String used at end-of-line. |
 
 The `columns` array can either contain objects, in which case their
 `name` and `align` properties will be used to alter the display of
@@ -71,7 +76,7 @@ name.
 
 > **Throws**
 
-`TypeError`: when `input` is not an array<br />
+`TypeError`: when `input` is not iterable (e.g., an array)<br />
 `TypeError`: when an unknown column alignment option is provided
 
 ### `options.columns`
@@ -90,7 +95,7 @@ tablemark([
 })
 
 // | first name | how old | are they cool |
-// | ---------- | :-----: | ------------- |
+// | :--------- | :-----: | :------------ |
 // | Bob        |   21    | false         |
 // | Sarah      |   22    | true          |
 // | Lee        |   23    | true          |
@@ -99,12 +104,12 @@ tablemark([
 ... displays as:
 
 | first name | how old | are they cool |
-| ---------- | :-----: | ------------- |
+| :--------- | :-----: | :------------ |
 | Bob        |   21    | false         |
 | Sarah      |   22    | true          |
 | Lee        |   23    | true          |
 
-### `options.stringify`
+### `options.toCellText`
 
 ```js
 tablemark([
@@ -112,7 +117,7 @@ tablemark([
   { name: 'Sarah', pet_owner: false, studying: true },
   { name: 'Sarah', pet_owner: true, studying: true }
 ], {
-  stringify,
+  toCellText,
   columns: [
     { align: 'left' },
     { align: 'center' },
@@ -120,7 +125,7 @@ tablemark([
   ]
 })
 
-function stringify (v) {
+function toCellText (v) {
   if (v === true) return '✔'
   if (!v) return ''
   return v
@@ -133,39 +138,41 @@ function stringify (v) {
 // | Lee   |     ✔     |    ✔     |
 ```
 
-### `options.wrap`
+### `options.wrapWidth`
 
 To output valid [GitHub Flavored Markdown](https://github.github.com/gfm/) a
-cell must not contain newlines. Consider replacing those with `<br />` (e.g.
-using the `stringify` option).
+cell must not contain newlines. Consider replacing those with `<br />` (e.g.,
+using the `toCellText` option).
 
-Set the `wrap.width` option to wrap any content at that length onto a new
+Set the `wrapWidth` option to wrap any content at that length onto a new
 adjacent line:
 
 ```js
 tablemark([
   { star: false, name: 'Benjamin' },
   { star: true, name: 'Jet Li' }
-], { wrap: { width: 5 } })
+], { wrapWidth: 5 })
 
 // | Star  | Name  |
-// | ----- | ----- |
+// | :---- | :---- |
 // | false | Benja |
 //           min
 // | true  | Jet   |
 //           Li
 ```
 
-Enable `wrap.gutters` to add pipes on all lines:
+### `options.wrapWithGutters`
+
+Enable `wrapWithGutters` to add pipes on all lines:
 
 ```js
 tablemark([
   { star: false, name: 'Benjamin' },
   { star: true, name: 'Jet Li' }
-], { wrap: { width: 5, gutters: true } })
+], { wrapWidth: 5, wrapWithGutters: true })
 
 // | Star  | Name  |
-// | ----- | ----- |
+// | :---- | :---- |
 // | false | Benja |
 // |       | min   |
 // | true  | Jet   |
