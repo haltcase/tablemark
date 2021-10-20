@@ -9,16 +9,15 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macOS-latest]
         node: [16, 14]
-    name: Node ${{ matrix.node }}
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Install Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
       - run: yarn && yarn test
