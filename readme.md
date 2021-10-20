@@ -57,7 +57,7 @@ tablemark (input: InputData, options?: TablemarkOptions): string
 
   | key            | type         | default    | description                                    |
   | :------------: | :----------: | :--------: | ---------------------------------------------- |
-  | `columns`      | `ColumnDescriptor[]` | - | Array of column descriptors.                    |
+  | `columns`      | `Array<string \| ColumnDescriptor>` | - | Array of column descriptors.                    |
   | `caseHeaders`  | `boolean`    | `true`     | Sentence case headers derived from keys.       |
   | `toCellText`    | `(input: unknown) => string` | - | Provide a custom "toString" function.       |
   | `wrapWidth`   | `number`     | `Infinity` | Wrap cell text at this length.                     |
