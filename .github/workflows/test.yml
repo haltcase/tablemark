@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macOS-latest]
-        node: [14, 12, 10]
+        node: [16, 14]
     name: Node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@master

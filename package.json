@@ -8,7 +8,7 @@
   "homepage": "https://github.com/citycide/tablemark",
   "bugs": "https://github.com/citycide/tablemark/issues",
   "engines": {
-    "node": ">=10"
+    "node": ">=14.16"
   },
   "keywords": [
     "markdown",
