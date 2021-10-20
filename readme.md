@@ -18,14 +18,14 @@ npm install tablemark
 ## usage
 
 ```js
-import tablemark from 'tablemark'
+import tablemark from "tablemark"
 ```
 
 ```js
 tablemark([
-  { name: 'Bob', age: 21, isCool: false },
-  { name: 'Sarah', age: 22, isCool: true },
-  { name: 'Lee', age: 23, isCool: true }
+  { name: "Bob", age: 21, isCool: false },
+  { name: "Sarah", age: 22, isCool: true },
+  { name: "Lee", age: 23, isCool: true }
 ])
 
 // | Name  | Age   | Is cool |
@@ -83,14 +83,14 @@ name.
 
 ```js
 tablemark([
-  { name: 'Bob', age: 21, isCool: false },
-  { name: 'Sarah', age: 22, isCool: true },
-  { name: 'Lee', age: 23, isCool: true }
+  { name: "Bob", age: 21, isCool: false },
+  { name: "Sarah", age: 22, isCool: true },
+  { name: "Lee", age: 23, isCool: true }
 ], {
   columns: [
-    'first name',
-    { name: 'how old', align: 'center' },
-    'are they cool'
+    "first name",
+    { name: "how old", align: "center" },
+    "are they cool"
   ]
 })
 
@@ -113,21 +113,21 @@ tablemark([
 
 ```js
 tablemark([
-  { name: 'Bob', pet_owner: true, studying: false },
-  { name: 'Sarah', pet_owner: false, studying: true },
-  { name: 'Sarah', pet_owner: true, studying: true }
+  { name: "Bob", pet_owner: true, studying: false },
+  { name: "Sarah", pet_owner: false, studying: true },
+  { name: "Sarah", pet_owner: true, studying: true }
 ], {
   toCellText,
   columns: [
-    { align: 'left' },
-    { align: 'center' },
-    { align: 'center' }
+    { align: "left" },
+    { align: "center" },
+    { align: "center" }
   ]
 })
 
 function toCellText (v) {
-  if (v === true) return '✔'
-  if (!v) return ''
+  if (v === true) return "✔"
+  if (!v) return ""
   return v
 }
 
@@ -149,8 +149,8 @@ adjacent line:
 
 ```js
 tablemark([
-  { star: false, name: 'Benjamin' },
-  { star: true, name: 'Jet Li' }
+  { star: false, name: "Benjamin" },
+  { star: true, name: "Jet Li" }
 ], { wrapWidth: 5 })
 
 // | Star  | Name  |
@@ -167,8 +167,8 @@ Enable `wrapWithGutters` to add pipes on all lines:
 
 ```js
 tablemark([
-  { star: false, name: 'Benjamin' },
-  { star: true, name: 'Jet Li' }
+  { star: false, name: "Benjamin" },
+  { star: true, name: "Jet Li" }
 ], { wrapWidth: 5, wrapWithGutters: true })
 
 // | Star  | Name  |
