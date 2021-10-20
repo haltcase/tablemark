@@ -1,4 +1,4 @@
-# tablemark &middot; [![Version](https://flat.badgen.net/npm/v/tablemark)](https://www.npmjs.com/package/tablemark) [![License](https://flat.badgen.net/npm/license/tablemark)](https://www.npmjs.com/package/tablemark) [![TypeScript](https://flat.badgen.net/badge/written%20in/TypeScript/294E80)](http://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+# tablemark &middot; [![Version](https://flat.badgen.net/npm/v/tablemark)](https://www.npmjs.com/package/tablemark) [![License](https://flat.badgen.net/npm/license/tablemark)](https://www.npmjs.com/package/tablemark) [![TypeScript](https://flat.badgen.net/badge/written%20in/TypeScript/294E80)](http://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html) [![GitHub Actions](https://flat.badgen.net/github/checks/citycide/tablemark)](https://github.com/citycide/tablemark/actions)
 
 > Generate markdown tables from JSON data.
 
