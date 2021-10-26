@@ -1,5 +1,6 @@
 {
   "name": "tablemark",
+  "version": "3.0.0",
   "description": "Generate markdown tables from a list of objects or JSON data.",
   "author": "Bo Lingen <lingenbw@gmail.com> (https://github.com/citycide)",
   "license": "MIT",

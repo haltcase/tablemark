@@ -1,3 +1,24 @@
+## [`3.0.0`](https://github.com/citycide/tablemark/compare/v2.0.0...v3.0.0) (2021-10-26)
+
+###### FEATURES
+
+* rewrite in TypeScript as ESM ([feb3dd1](https://github.com/citycide/tablemark/commit/feb3dd1))
+* require node 14.16+ ([21b6d9e](https://github.com/citycide/tablemark/commit/21b6d9e))
+
+
+###### BREAKING CHANGES
+
+* support for node <14.16 has been dropped.
+* tablemark must be used as an ES module and is no longer available as common js.
+* the shape of the options object to the `tablemark` function is simplified:
+  * `options.stringify` &rarr; `options.toCellText`
+  * `options.wrap.width` &rarr; `options.wrapWidth`
+  * `options.wrap.gutters` &rarr; `options.wrapWithGutters`
+* a `RangeError` is thrown instead of a `TypeError` when
+an invalid alignment is specified.
+
+---
+
 <a name="2.0.0"></a>
 ## [`2.0.0`](https://github.com/citycide/tablemark/compare/v1.2.0...v2.0.0) (2019-07-25)
 
