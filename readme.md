@@ -2,7 +2,7 @@
 
 > Generate markdown tables from JSON data.
 
-Parses arrays of objects into markdown tables, complete with configuration
+Renders arrays of objects as markdown tables, complete with configuration
 for renaming columns and left, center, or right-aligning them.
 
 ## installation
