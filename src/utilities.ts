@@ -112,7 +112,7 @@ export const normalizeOptions = (
   options: TablemarkOptions
 ): TablemarkOptionsNormalized => {
   const defaults: TablemarkOptionsNormalized = {
-    toCellText: toCellText,
+    toCellText,
     caseHeaders: true,
     columns: [],
     lineEnding: "\n",
