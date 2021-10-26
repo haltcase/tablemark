@@ -133,7 +133,7 @@ export const normalizeOptions = (
         alignmentOptions.left
 
       if (!alignmentSet.has(align)) {
-        throw new TypeError(`Unknown alignment, got ${descriptor.align}`)
+        throw new RangeError(`Unknown alignment, got ${descriptor.align}`)
       }
 
       return {
