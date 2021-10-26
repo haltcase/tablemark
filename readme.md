@@ -140,11 +140,7 @@ function toCellText (v) {
 
 ### `options.wrapWidth`
 
-To output valid [GitHub Flavored Markdown](https://github.github.com/gfm/) a
-cell must not contain newlines. Consider replacing those with `<br />` (e.g.,
-using the `toCellText` option).
-
-Set the `wrapWidth` option to wrap any content at that length onto a new
+Set `options.wrapWidth` to wrap any content at that length onto a new
 adjacent line:
 
 ```js
@@ -160,6 +156,10 @@ tablemark([
 // | true  | Jet   |
 //           Li
 ```
+
+> To output valid [GitHub Flavored Markdown](https://github.github.com/gfm/) a
+cell must not contain newlines. Consider replacing those with `<br />` (e.g.,
+using `options.toCellText`).
 
 ### `options.wrapWithGutters`
 
