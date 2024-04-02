@@ -13,17 +13,17 @@ const testCases: Record<string, TestCase> = {
     input: [
       {
         name: "trilogy",
-        repo: "[citycide/trilogy](//github.com/citycide/trilogy)",
+        repo: "[haltcase/trilogy](//github.com/haltcase/trilogy)",
         desc: "No-hassle SQLite with type-casting schema models and support for native & pure JS backends."
       },
       {
         name: "strat",
-        repo: "[citycide/strat](//github.com/citycide/strat)",
+        repo: "[haltcase/strat](//github.com/haltcase/strat)",
         desc: "Functional-ish JavaScript string formatting, with inspirations from Python."
       },
       {
         name: "tablemark",
-        repo: "[citycide/tablemark](//github.com/citycide/tablemark)",
+        repo: "[haltcase/tablemark](//github.com/haltcase/tablemark)",
         desc: "Generate markdown tables from JSON data."
       }
     ],
@@ -31,9 +31,9 @@ const testCases: Record<string, TestCase> = {
       [
         "| Name      | Repo                                                  | Desc                                                                                        |",
         "| :-------- | :---------------------------------------------------- | :------------------------------------------------------------------------------------------ |",
-        "| trilogy   | [citycide/trilogy](//github.com/citycide/trilogy)     | No-hassle SQLite with type-casting schema models and support for native & pure JS backends. |",
-        "| strat     | [citycide/strat](//github.com/citycide/strat)         | Functional-ish JavaScript string formatting, with inspirations from Python.                 |",
-        "| tablemark | [citycide/tablemark](//github.com/citycide/tablemark) | Generate markdown tables from JSON data.                                                    |"
+        "| trilogy   | [haltcase/trilogy](//github.com/haltcase/trilogy)     | No-hassle SQLite with type-casting schema models and support for native & pure JS backends. |",
+        "| strat     | [haltcase/strat](//github.com/haltcase/strat)         | Functional-ish JavaScript string formatting, with inspirations from Python.                 |",
+        "| tablemark | [haltcase/tablemark](//github.com/haltcase/tablemark) | Generate markdown tables from JSON data.                                                    |"
       ].join(EOL) + EOL
   },
   alignments: {
