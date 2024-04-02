@@ -48,14 +48,25 @@ export const toCellText: ToCellText = v => {
 export const line = (
   columns: readonly string[],
   config: TablemarkOptionsNormalized,
-  forceGutters = false
+  {
+    forceGutters = false,
+    isHeaderSeparator = false
+  }: {
+    forceGutters?: boolean
+    isHeaderSeparator?: boolean
+  } = {}
 ): string => {
   const gutters = forceGutters ? true : config.wrapWithGutters
+  let padding = " "
+
+  if (isHeaderSeparator && !config.padHeaderSeparator) {
+    padding = ""
+  }
 
   return (
-    (gutters ? "| " : "  ") +
-    columns.join(gutters ? " | " : "   ") +
-    (gutters ? " |" : "  ") +
+    (gutters ? `|${padding}` : ` ${padding}`) +
+    columns.join(gutters ? `${padding}|${padding}` : `${padding} ${padding}`) +
+    (gutters ? `${padding}|` : `${padding} `) +
     config.lineEnding
   )
 }
@@ -78,11 +89,11 @@ export const row = (
   }
 
   if (height === 1) {
-    return line(first, config, true)
+    return line(first, config, { forceGutters: true })
   }
 
   const lines = new Array(height)
-  lines[0] = line(first, config, true)
+  lines[0] = line(first, config, { forceGutters: true })
 
   for (let v = 1; v < height; v++) {
     lines[v] = new Array(width)
@@ -117,7 +128,8 @@ export const normalizeOptions = (
     columns: [],
     lineEnding: "\n",
     wrapWidth: Infinity,
-    wrapWithGutters: false
+    wrapWithGutters: false,
+    padHeaderSeparator: true
   }
 
   Object.assign(defaults, options)

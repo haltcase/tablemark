@@ -32,6 +32,8 @@ export default (input: InputData, options: TablemarkOptions = {}): string => {
   // header line
   table += row(alignments, widths, titles, config)
 
+  const dashLengthOffset = config.padHeaderSeparator ? 2 : 0
+
   // header separator
   table += line(
     alignments.map(
@@ -39,13 +41,16 @@ export default (input: InputData, options: TablemarkOptions = {}): string => {
         (align === alignmentOptions.left || align === alignmentOptions.center
           ? ":"
           : "-") +
-        "-".repeat(widths[i] - 2) +
+        "-".repeat(widths[i] - dashLengthOffset) +
         (align === alignmentOptions.right || align === alignmentOptions.center
           ? ":"
           : "-")
     ),
     config,
-    true
+    {
+      forceGutters: true,
+      isHeaderSeparator: true
+    }
   )
 
   // table body

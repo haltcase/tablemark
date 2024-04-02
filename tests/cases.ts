@@ -51,6 +51,14 @@ test("gutters", t => {
   t.is(result, cases.gutters.expected)
 })
 
+test("can disable header separator row padding", t => {
+  const result = tablemark(
+    cases.padHeaderSeparator.input,
+    cases.padHeaderSeparator.options
+  )
+  t.is(result, cases.padHeaderSeparator.expected)
+})
+
 test("pipes in content", t => {
   const result = tablemark(cases.pipes.input, cases.pipes.options)
   t.is(result, cases.pipes.expected)
