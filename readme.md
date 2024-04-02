@@ -37,11 +37,13 @@ tablemark([
 
 ... displays as:
 
+<!-- prettier-ignore-start -->
 | Name  | Age   | Is cool |
 | :---- | :---- | :------ |
 | Bob   | 21    | false   |
 | Sarah | 22    | true    |
 | Lee   | 23    | true    |
+<!-- prettier-ignore-end -->
 
 ## api
 
@@ -55,14 +57,15 @@ tablemark (input: InputData, options?: TablemarkOptions): string
   * an array of objects or iterables
 * `TablemarkOptions` options:
 
-  | key            | type         | default    | description                                    |
-  | :------------: | :----------: | :--------: | ---------------------------------------------- |
-  | `columns`      | `Array<string \| ColumnDescriptor>` | - | Array of column descriptors.                    |
-  | `caseHeaders`  | `boolean`    | `true`     | Sentence case headers derived from keys.       |
-  | `toCellText`    | `(input: unknown) => string` | - | Provide a custom "toString" function.       |
-  | `wrapWidth`   | `number`     | `Infinity` | Wrap cell text at this length.                     |
-  | `wrapWithGutters` | `boolean`    | `false`    | Add sides (`\| <content> \|`) to wrapped rows. |
-  | `lineEnding` | `string` | `"\n"` | String used at end-of-line. |
+  |         key          |                type                 |  default   | description                                                     |
+  | :------------------: | :---------------------------------: | :--------: | --------------------------------------------------------------- |
+  |      `columns`       | `Array<string \| ColumnDescriptor>` |     -      | Array of column descriptors.                                    |
+  |    `caseHeaders`     |              `boolean`              |   `true`   | Sentence case headers derived from keys.                        |
+  |     `toCellText`     |    `(input: unknown) => string`     |     -      | Provide a custom "toString" function.                           |
+  | `padHeaderSeparator` |              `boolean`              |   `true`   | Whether to pad gutters of the header separator (alignment) row. |
+  |     `wrapWidth`      |              `number`               | `Infinity` | Wrap cell text at this length.                                  |
+  |  `wrapWithGutters`   |              `boolean`              |  `false`   | Add sides (`\| <content> \|`) to wrapped rows.                  |
+  |     `lineEnding`     |              `string`               |   `"\n"`   | String used at end-of-line.                                     |
 
 The `columns` array can either contain objects, in which case their
 `name` and `align` properties will be used to alter the display of
@@ -103,11 +106,44 @@ tablemark([
 
 ... displays as:
 
+<!-- prettier-ignore-start -->
 | first name | how old | are they cool |
 | :--------- | :-----: | :------------ |
 | Bob        |   21    | false         |
 | Sarah      |   22    | true          |
 | Lee        |   23    | true          |
+<!-- prettier-ignore-end -->
+
+### `options.padHeaderSeparator`
+
+```js
+tablemark(
+  [
+    { name: "Bob", age: 21, isCool: false },
+    { name: "Sarah", age: 22, isCool: true },
+    { name: "Lee", age: 23, isCool: true }
+  ],
+  {
+    columns: [{ align: "left" }, { align: "center" }, { align: "right" }]
+  }
+)
+
+// | first name | how old | are they cool |
+// |:-----------|:-------:|--------------:|
+// | Bob        |   21    | false         |
+// | Sarah      |   22    | true          |
+// | Lee        |   23    | true          |
+```
+
+... displays as:
+
+<!-- prettier-ignore-start -->
+| first name | how old | are they cool |
+|:-----------|:-------:|--------------:|
+| Bob        |   21    | false         |
+| Sarah      |   22    | true          |
+| Lee        |   23    | true          |
+<!-- prettier-ignore-end -->
 
 ### `options.toCellText`
 

@@ -63,6 +63,11 @@ export interface TablemarkOptions {
    * Text to use as the line ending, `\n` by default.
    */
   lineEnding?: string
+
+  /**
+   * Include padding on the header separator row, `true` by default.
+   */
+  padHeaderSeparator?: boolean
 }
 
 export type TablemarkOptionsNormalized = Omit<

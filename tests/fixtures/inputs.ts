@@ -192,6 +192,25 @@ const testCases: Record<string, TestCase> = {
         "| Lee   | 23    | true  |"
       ].join(EOL) + EOL
   },
+  padHeaderSeparator: {
+    input: [
+      { name: "Bob", age: 21, isCool: false },
+      { name: "Sarah", age: 22, isCool: true },
+      { name: "Lee", age: 23, isCool: true }
+    ],
+    options: {
+      columns: [{ align: "left" }, { align: "right" }, { align: "center" }],
+      padHeaderSeparator: false
+    },
+    expected:
+      [
+        "| Name  |   Age | Is cool |",
+        "|:------|------:|:-------:|",
+        "| Bob   |    21 |  false  |",
+        "| Sarah |    22 |  true   |",
+        "| Lee   |    23 |  true   |"
+      ].join(EOL) + EOL
+  },
   pipes: {
     input: [{ content: "yes | no" }],
     expected:
