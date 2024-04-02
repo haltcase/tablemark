@@ -37,7 +37,7 @@
     "prepublishOnly": "npm run lint && npm test"
   },
   "devDependencies": {
-    "@haltcase/changelog": "^2.0.0",
+    "@citycide/changelog": "^2.0.0",
     "@types/node": "^14.17.27",
     "ava": "^3.15.0",
     "ts-node": "^10.3.0",
