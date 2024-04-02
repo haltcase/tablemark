@@ -1,3 +1,13 @@
+## [`3.1.0`](https://github.com/haltcase/tablemark/compare/v3.0.0...v3.1.0) (2024-04-02)
+
+
+###### FEATURES
+
+* support eliding padding in header separator ([#17](https://github.com/haltcase/tablemark/issues/17)) ([a4d24ce](https://github.com/haltcase/tablemark/commit/a4d24ce)), closes [#16](https://github.com/haltcase/tablemark/issues/16)
+
+
+---
+
 ## [`3.0.0`](https://github.com/haltcase/tablemark/compare/v2.0.0...v3.0.0) (2021-10-26)
 
 ###### FEATURES
