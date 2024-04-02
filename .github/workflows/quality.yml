@@ -1,0 +1,34 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "canary"
+      - "main"
+
+jobs:
+  code-quality:
+    name: Code quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          check-latest: true
+
+      - run: pnpm install
+      - run: pnpm test
+
+      - name: Check linting (ESLint)
+        run: pnpm eslint:check
+
+      - name: Check formatting (Prettier)
+        run: pnpm prettier:check
+
+      - name: Check linting (ESLint)
+        run: pnpm typescript:check

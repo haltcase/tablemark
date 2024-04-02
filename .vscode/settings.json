@@ -1,0 +1,15 @@
+{
+	"search.exclude": {
+		"package-lock.json": true,
+		"pnpm-lock.yaml": true
+	},
+	"prettier.arrowParens": "always",
+	"prettier.bracketSpacing": true,
+	"prettier.bracketSameLine": true,
+	"prettier.printWidth": 80,
+	"prettier.semi": true,
+	"prettier.singleQuote": false,
+	"prettier.trailingComma": "none",
+	"prettier.useTabs": true,
+	"typescript.tsdk": "node_modules\\typescript\\lib"
+}
