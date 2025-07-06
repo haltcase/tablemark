@@ -31,13 +31,13 @@
 		"dist"
 	],
 	"scripts": {
-		"build": "tsc",
+		"build": "tsdown",
 		"changelog": "changelog",
 		"eslint:check": "eslint src tests",
 		"format": "eslint --fix src tests && prettier --write src tests",
 		"prepublishOnly": "pnpm format && pnpm test",
 		"prettier:check": "prettier --check src tests",
-		"test": "glob \"**/*.test.ts\" --cmd \"node --import tsx --test\"",
+		"test": "vitest",
 		"typescript:check": "tsc --noEmit && echo \"No errors reported by tsc.\""
 	},
 	"prettier": "@haltcase/style/prettier",
@@ -46,14 +46,17 @@
 		"split-text-to-chunks": "^1.0.0"
 	},
 	"devDependencies": {
+		"@arethetypeswrong/core": "^0.18.2",
 		"@citycide/changelog": "^2.0.0",
 		"@haltcase/style": "^6.1.0",
 		"@types/node": "^20.12.2",
 		"eslint": "^8.57.0",
 		"glob": "^10.3.12",
 		"prettier": "^3.2.5",
+		"tsdown": "^0.12.9",
 		"tsx": "^4.7.1",
-		"typescript": "^5.3.3"
+		"typescript": "^5.3.3",
+		"vitest": "3.2.4"
 	},
 	"packageManager": "pnpm@8.11.0",
 	"engines": {

@@ -1,9 +1,20 @@
 {
-	"extends": "@haltcase/style/typescript/node18",
+	// Extending from the node22 config for now until `@haltcase/style` has a
+	// node24 config.
+	"extends": "@haltcase/style/typescript/node22",
 	"compilerOptions": {
-		"useDefineForClassFields": true,
-		"declaration": true,
-		"outDir": "dist"
+		"target": "es2023",
+		"lib": [
+			"es2023",
+			// This is needed for `Array.fromAsync`; remove it when TypeScript moves
+			// it to an ES edition lib.
+			"ESNext.Array"
+		],
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"noEmit": true,
+		"resolveJsonModule": true
 	},
-	"include": ["src", "declarations.d.ts"]
+	"include": ["src", "tests", "*.ts"],
+	"exclude": ["node_modules"]
 }
