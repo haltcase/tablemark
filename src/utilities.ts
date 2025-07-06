@@ -1,231 +1,334 @@
-import { sentenceCase } from "sentence-case";
-import split from "split-text-to-chunks";
+import getAnsiRegex from "ansi-regex";
+import * as changeCase from "change-case";
+import stringWidth from "string-width";
+import wordwrap from "wordwrapjs";
+import wrapAnsi from "wrap-ansi";
 
-import { alignmentOptions } from "./shared.js";
+import {
+	alignmentOptions,
+	lineBreakStrategies,
+	lineEndingRegex,
+	overflowStrategies,
+	textHandlingStrategies,
+	truncationCharacter,
+	unknownKeyStrategies
+} from "./constants.js";
 import type {
 	Alignment,
-	InputData,
+	ColumnDescriptor,
+	HeaderCase,
+	OverflowStrategy,
 	TablemarkOptions,
 	TablemarkOptionsNormalized,
 	ToCellText
 } from "./types.js";
 
-const columnsWidthMin = 5;
+type StringWrapMethod = (string: string, width: number) => string[];
+type StringWidthMethod = (string: string) => number;
+
 const pipeRegex = /\|/g;
+export const ansiRegex = getAnsiRegex({ onlyFirst: true });
 
-const alignmentSet = new Set<Uppercase<Alignment>>(["LEFT", "CENTER", "RIGHT"]);
+/**
+ * Check if the given `string` contains special characters or character
+ * sequences that require special handling, such as multi-byte emojis, ANSI
+ * styles, or CJK characters.
+ */
+export const hasSpecialCharacters = (string: string): boolean =>
+	ansiRegex.test(string) || string.length !== stringWidth(string);
 
+export const basicStringWrap: StringWrapMethod = (string, width) =>
+	wordwrap.lines(string, {
+		width,
+		break: true
+	});
+
+export const advancedStringWrap: StringWrapMethod = (string, width) =>
+	wrapAnsi(string, width, {
+		hard: true
+	}).split("\n");
+
+/**
+ * Wrap the given `string` to the specified `width` using the "advanced"
+ * strategy if the string contains special characters or character sequences.
+ */
+export const autoStringWrap: StringWrapMethod = (string, width) => {
+	if (hasSpecialCharacters(string)) {
+		return advancedStringWrap(string, width);
+	}
+
+	return basicStringWrap(string, width);
+};
+
+/**
+ * Check if the column at `columnIndex` is affected by any truncation, either
+ * for the body or the header, according to the column descriptor or the root
+ * configuration.
+ */
+export const getIsSomeTruncateStrategy = (
+	config: TablemarkOptionsNormalized,
+	columnIndex: number
+): boolean => {
+	const isColumnSomeTruncateStrategy =
+		/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+		config.columns[columnIndex]?.overflowStrategy?.includes("truncate") ||
+		config.columns[columnIndex]?.overflowHeaderStrategy?.includes("truncate") ||
+		/* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
+		false;
+
+	const isRootSomeTruncateStrategy =
+		config.overflowStrategy.includes("truncate") ||
+		config.overflowHeaderStrategy.includes("truncate");
+
+	return isColumnSomeTruncateStrategy || isRootSomeTruncateStrategy;
+};
+
+/**
+ * Get the overflow strategy for the column at `columnIndex` according to the
+ * `overflowStrategy` specified in the column descriptor or the root
+ * configuration.
+ */
+export const getOverflowStrategy = (
+	config: TablemarkOptionsNormalized,
+	columnIndex: number,
+	isHeader = false
+): OverflowStrategy => {
+	const {
+		overflowStrategy = config.overflowStrategy,
+		overflowHeaderStrategy = config.overflowHeaderStrategy
+	} = config.columns[columnIndex] ?? {};
+
+	return isHeader ? overflowHeaderStrategy : overflowStrategy;
+};
+
+/**
+ * Get the string wrapping function for the column at `columnIndex` according to
+ * the `textHandlingStrategy` specified in the column descriptor or the root
+ * configuration.
+ */
+export const getStringWrapMethod = (
+	config: TablemarkOptionsNormalized,
+	columnIndex: number
+): StringWrapMethod => {
+	const { textHandlingStrategy = config.textHandlingStrategy } =
+		config.columns[columnIndex] ?? {};
+
+	switch (textHandlingStrategy) {
+		case textHandlingStrategies.auto: {
+			return autoStringWrap;
+		}
+		case textHandlingStrategies.advanced: {
+			return advancedStringWrap;
+		}
+		case textHandlingStrategies.basic: {
+			return basicStringWrap;
+		}
+	}
+};
+
+export const advancedStringWidth: StringWidthMethod = (string) =>
+	stringWidth(string);
+
+export const autoStringWidth: StringWidthMethod = (string) => {
+	if (hasSpecialCharacters(string)) {
+		return advancedStringWidth(string);
+	}
+
+	return string.length;
+};
+
+/**
+ * Pad the given string `content` to the given `width` according to
+ * `alignment`.
+ *
+ * Note that `content` is expected to be a string _not_ containing newlines.
+ */
 export const pad = (
+	_config: TablemarkOptionsNormalized,
+	content: string,
+	_columnIndex: number,
 	alignment: Alignment | undefined,
-	width: number,
-	content: string
+	width: number
 ): string => {
+	const contentWidth = autoStringWidth(content);
+
 	if (alignment == null || alignment === alignmentOptions.left) {
-		return content.padEnd(width);
+		return content + " ".repeat(Math.max(0, width - contentWidth));
 	}
 
 	if (alignment === alignmentOptions.right) {
-		return content.padStart(width);
+		return " ".repeat(Math.max(0, width - contentWidth)) + content;
 	}
 
 	// center alignment
-	const remainder = Math.max(0, (width - content.length) % 2);
-	const sides = Math.max(0, (width - content.length - remainder) / 2);
+	const remainder = Math.max(0, (width - contentWidth) % 2);
+	const sides = Math.max(0, (width - contentWidth - remainder) / 2);
 
 	return " ".repeat(sides) + content + " ".repeat(sides + remainder);
 };
 
-export const toCellText: ToCellText = (v) => {
-	if (v === undefined) return "";
-	return String(v).replaceAll(pipeRegex, "\\|");
+/**
+ * The default cell content transformer.
+ */
+export const toCellText: ToCellText = ({ value }) => {
+	if (value === undefined) {
+		return "";
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-base-to-string
+	return String(value).replaceAll(pipeRegex, "\\|");
 };
 
-export const line = (
-	columns: readonly string[],
-	config: TablemarkOptionsNormalized,
-	{
-		forceGutters = false,
-		isHeaderSeparator = false
-	}: {
-		forceGutters?: boolean;
-		isHeaderSeparator?: boolean;
-	} = {}
-): string => {
-	const gutters = forceGutters ? true : config.wrapWithGutters;
-	let padding = " ";
-
-	if (isHeaderSeparator && !config.padHeaderSeparator) {
-		padding = "";
-	}
-
-	return (
-		(gutters ? `|${padding}` : ` ${padding}`) +
-		columns.join(gutters ? `${padding}|${padding}` : `${padding} ${padding}`) +
-		(gutters ? `${padding}|` : `${padding} `) +
-		config.lineEnding
-	);
+const defaultOptions: TablemarkOptionsNormalized = {
+	align: alignmentOptions.left,
+	columns: [],
+	headerCase: "sentenceCase",
+	lineBreakStrategy: lineBreakStrategies.preserve,
+	lineEnding: "\n",
+	maxWidth: Number.POSITIVE_INFINITY,
+	overflowStrategy: overflowStrategies.wrap,
+	overflowHeaderStrategy: overflowStrategies.wrap,
+	padHeaderSeparator: true,
+	stringWidthMethod: autoStringWidth,
+	stringWrapMethod: autoStringWrap,
+	toCellText,
+	unknownKeyStrategy: unknownKeyStrategies.ignore,
+	textHandlingStrategy: textHandlingStrategies.auto,
+	wrapWithGutters: false
 };
 
-export const row = (
-	alignments: readonly Alignment[],
-	widths: readonly number[],
-	columns: readonly string[],
-	config: TablemarkOptionsNormalized
-): string => {
-	const width = columns.length;
-	const values = Array.from<string>({ length: width });
-	const first = Array.from<string>({ length: width });
-	let height = 1;
-
-	for (let h = 0; h < width; h++) {
-		const cells = split(
-			columns[h] || "",
-			Math.max(widths[h] || 0, columnsWidthMin)
-		);
-		values[h] = cells;
-
-		if (cells.length > height) {
-			height = cells.length;
-		}
-
-		first[h] = pad(
-			alignments[h],
-			Math.max(widths[h] || 0, columnsWidthMin),
-			cells[0] || ""
-		);
+const handleDeprecatedOptions = (
+	options: TablemarkOptions
+): TablemarkOptions => {
+	// Use `wrapWidth` as `maxWidth` if `maxWidth` is not set.
+	if (options.wrapWidth != null && options.maxWidth == null) {
+		options.maxWidth = options.wrapWidth;
+		delete options.wrapWidth;
 	}
 
-	if (height === 1) {
-		return line(first, config, { forceGutters: true });
+	// Use `caseHeaders` as `headerCase: "preserve" | "sentenceCase"`.
+	if (options.caseHeaders != null && options.headerCase == null) {
+		options.headerCase = options.caseHeaders ? "sentenceCase" : "preserve";
+		delete options.caseHeaders;
 	}
 
-	const lines: [first: string, ...rest: string[][]] = [
-		line(first, config, { forceGutters: true }),
-		...Array.from<string[]>({
-			length: height
-		})
-	];
-
-	for (let v = 1; v < height; v++) {
-		lines[v as 1] = Array.from<string>({ length: width });
-	}
-
-	for (let h = 0; h < width; h++) {
-		const cells = values[h];
-		let v = 1;
-
-		if (cells && cells.length > 0) {
-			for (; v < cells.length; v++) {
-				(lines[v] as string[])[h] = pad(
-					alignments[h],
-					Math.max(widths[h] || 0, columnsWidthMin),
-					cells[v] || ""
-				);
-			}
-		}
-
-		for (; v < height; v++) {
-			(lines[v] as string[])[h] = " ".repeat(
-				Math.max(widths[h] || 0, columnsWidthMin)
-			);
-		}
-	}
-
-	for (let h = 1; h < height; h++) {
-		lines[h as 0] = line(lines[h as 1] || [], config);
-	}
-
-	return lines.join("");
+	return options;
 };
 
 export const normalizeOptions = (
 	options: TablemarkOptions
 ): TablemarkOptionsNormalized => {
-	const defaults: TablemarkOptionsNormalized = {
-		toCellText,
-		caseHeaders: true,
-		columns: [],
-		lineEnding: "\n",
-		wrapWidth: Number.POSITIVE_INFINITY,
-		wrapWithGutters: false,
-		padHeaderSeparator: true
+	// Mutate the input options to preprocess deprecated properties.
+	handleDeprecatedOptions(options);
+
+	const { columns, ...rest } = options;
+
+	const normalizedOptions: TablemarkOptionsNormalized = {
+		...defaultOptions,
+		...rest
 	};
 
-	Object.assign(defaults, options);
+	switch (normalizedOptions.textHandlingStrategy) {
+		case textHandlingStrategies.auto: {
+			normalizedOptions.stringWidthMethod = autoStringWidth;
+			normalizedOptions.stringWrapMethod = autoStringWrap;
+			break;
+		}
+		case textHandlingStrategies.advanced: {
+			normalizedOptions.stringWidthMethod = advancedStringWidth;
+			normalizedOptions.stringWrapMethod = advancedStringWrap;
+			break;
+		}
+		case textHandlingStrategies.basic: {
+			// We use `autoStringWidth` even for the `basic` strategy because it
+			// doesn't cost much while being more reliable
+			normalizedOptions.stringWidthMethod = autoStringWidth;
+			normalizedOptions.stringWrapMethod = basicStringWrap;
+			break;
+		}
+	}
 
-	defaults.columns =
-		options.columns?.map((descriptor) => {
+	normalizedOptions.columns =
+		columns?.map((descriptor) => {
 			if (typeof descriptor === "string") {
 				return { name: descriptor };
 			}
 
-			const align =
-				(descriptor.align?.toUpperCase() as Uppercase<Alignment> | undefined) ??
-				alignmentOptions.left;
-
-			if (!alignmentSet.has(align)) {
-				throw new RangeError(`Unknown alignment, got ${descriptor.align}`);
-			}
-
 			return {
-				align,
-				name: descriptor.name
-			};
+				name: descriptor.name,
+				align: descriptor.align ?? normalizedOptions.align,
+				overflowStrategy:
+					descriptor.overflowStrategy ?? normalizedOptions.overflowStrategy,
+				overflowHeaderStrategy:
+					descriptor.overflowHeaderStrategy ??
+					normalizedOptions.overflowHeaderStrategy,
+				textHandlingStrategy:
+					descriptor.textHandlingStrategy ??
+					normalizedOptions.textHandlingStrategy,
+				width: descriptor.width
+			} satisfies ColumnDescriptor;
 		}) ?? [];
 
-	return defaults;
+	return normalizedOptions;
 };
 
-export const getColumnTitles = (
-	keys: readonly string[],
-	config: TablemarkOptionsNormalized
-): string[] => {
-	return keys.map((key, index) => {
-		if (Array.isArray(config.columns)) {
-			const customTitle = config.columns[index]?.name;
-
-			if (customTitle != null) {
-				return customTitle;
-			}
-		}
-
-		if (!config.caseHeaders) {
-			return key;
-		}
-
-		return sentenceCase(key);
-	});
+/**
+ * Replace all line breaks in `text` with the given `replacementCharacter`.
+ */
+export const stripLineBreaks = (
+	text: string,
+	replacementCharacter = " "
+): string => {
+	return text.replaceAll(lineEndingRegex, replacementCharacter);
 };
 
-export const getColumnWidths = (
-	input: InputData,
-	keys: readonly string[],
-	titles: readonly string[],
-	config: TablemarkOptionsNormalized
-): number[] => {
-	return input.reduce(
-		(sizes, item) =>
-			keys.map((key, index) =>
-				Math.max(
-					split.width(config.toCellText(item[key]), config.wrapWidth),
-					sizes[index] || 0
-				)
-			),
-		titles.map((t) =>
-			Math.max(columnsWidthMin, split.width(t, config.wrapWidth))
-		)
-	);
+/**
+ * Calculate the visual width of a given multiline text by finding its longest
+ * line.
+ */
+export const getMaxStringWidth = (
+	config: TablemarkOptionsNormalized,
+	_columnIndex: number,
+	value: unknown
+): number => {
+	const text = String(value);
+
+	if (text.includes("\n")) {
+		const lines =
+			config.lineBreakStrategy === lineBreakStrategies.strip
+				? [stripLineBreaks(text)]
+				: text.split(
+						lineEndingRegex,
+						config.lineBreakStrategy === lineBreakStrategies.truncate
+							? 1
+							: undefined
+					);
+
+		const longestLineWidth =
+			lines.reduce<number>(
+				(currentMax, nextString) =>
+					Math.max(currentMax, stringWidth(nextString)),
+				0
+			) +
+			(config.lineBreakStrategy === lineBreakStrategies.truncate
+				? truncationCharacter.length
+				: 0);
+
+		return longestLineWidth;
+	}
+
+	return stringWidth(text);
 };
 
-export const getColumnAlignments = (
-	keys: readonly string[],
-	config: TablemarkOptionsNormalized
-): Alignment[] => {
-	return keys.map((_, index) => {
-		if (typeof config.columns[index]?.align === "string") {
-			return config.columns[index]?.align ?? alignmentOptions.left;
-		}
+/**
+ * Convert the given string `value` to the specified `textCase`.
+ */
+export const toTextCase = (value: string, textCase: HeaderCase): string => {
+	if (textCase === "preserve") {
+		return value;
+	}
 
-		return alignmentOptions.left;
-	});
+	const convertCase = changeCase[textCase];
+
+	return convertCase(value);
 };
