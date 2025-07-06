@@ -7,7 +7,6 @@ export default [
 	},
 
 	...getEslintConfig({
-		nextjs: true,
 		node: true,
 		typescriptProject: ["tsconfig.json", "tests/tsconfig.json"]
 	}),
