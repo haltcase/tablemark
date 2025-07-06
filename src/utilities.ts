@@ -200,6 +200,7 @@ const defaultOptions: TablemarkOptionsNormalized = {
 const handleDeprecatedOptions = (
 	options: TablemarkOptions
 ): TablemarkOptions => {
+	/* eslint-disable @typescript-eslint/no-deprecated */
 	// Use `wrapWidth` as `maxWidth` if `maxWidth` is not set.
 	if (options.wrapWidth != null && options.maxWidth == null) {
 		options.maxWidth = options.wrapWidth;
@@ -211,6 +212,7 @@ const handleDeprecatedOptions = (
 		options.headerCase = options.caseHeaders ? "sentenceCase" : "preserve";
 		delete options.caseHeaders;
 	}
+	/* eslint-enable @typescript-eslint/no-deprecated */
 
 	return options;
 };
