@@ -34,10 +34,10 @@
 		"build": "tsdown",
 		"changelog": "changelog",
 		"eslint:check": "eslint src tests",
-		"format": "oxlint --fix && eslint --fix src tests && prettier --experimental-cli --write src tests",
+		"format": "oxlint --fix && eslint --fix src tests && prettier --write src tests",
 		"oxlint:check": "oxlint",
 		"prepublishOnly": "pnpm test",
-		"prettier:check": "prettier --experimental-cli --check src tests",
+		"prettier:check": "prettier --check src tests",
 		"test": "vitest",
 		"typescript:check": "tsgo --noEmit"
 	},
