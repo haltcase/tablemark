@@ -32,7 +32,7 @@
 	],
 	"scripts": {
 		"build": "tsdown",
-		"changelog": "changelog",
+		"changelog": "changelog --in-file CHANGELOG.md --out-file CHANGELOG.md",
 		"eslint:check": "eslint src tests",
 		"format": "oxlint --fix && eslint --fix src tests && prettier --write src tests",
 		"oxlint:check": "oxlint",
