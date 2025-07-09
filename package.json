@@ -52,6 +52,9 @@
 	"devDependencies": {
 		"@arethetypeswrong/core": "^0.18.2",
 		"@citycide/changelog": "^2.0.0",
+		"@commitlint/cli": "^19.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
+		"@commitlint/types": "^19.8.1",
 		"@haltcase/style": "^7.3.1",
 		"@types/node": "^24.0.10",
 		"@types/wordwrapjs": "^5.1.2",
