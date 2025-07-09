@@ -6,10 +6,9 @@
 /.pnpm-store
 .pnp.js
 
-# lock files
+# non-pnpm lock files
 npm-shrinkwrap.json
 package-lock.json
-pnpm-lock.yaml
 yarn.lock
 
 # misc
