@@ -27,7 +27,7 @@ export const textHandlingStrategies = {
 	advanced: "advanced"
 } as const;
 
-export const columnsMinimumWidth = 5;
+export const columnsMinimumWidth = 3;
 
 export const lineEndingRegex = /\r?\n/g;
 

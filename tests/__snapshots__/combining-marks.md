@@ -1,4 +1,4 @@
-| Word   | Note  |
-| :----- | :---- |
-| éclair | äbc   |
-| café   | noël  |
+| Word   | Note |
+| :----- | :--- |
+| éclair | äbc  |
+| café   | noël |
