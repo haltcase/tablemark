@@ -1,0 +1,14 @@
+# https://lefthook.dev/configuration/
+
+rc: ~/.config/lefthook/init.sh
+
+commit-msg:
+  commands:
+    "lint commit message":
+      run: pnpm commitlint --edit {1}
+
+pre-commit:
+  parallel: true
+  jobs:
+    - run: pnpm prettier --write {staged_files}
+      glob: "*.{js,jsx,ts,tsx,css,yml,yaml,json,md}"
