@@ -74,6 +74,7 @@ tablemark (input: InputData, options?: TablemarkOptions): string
   | :----------------------: | :------------------------------------------: | :--------------: | -------------------------------------------------------------------------------------------------- |
   |         `align`          |       `"left" \| "center" \| "right"`        |     `"left"`     | Horizontal alignment to use for all columns.                                                       |
   |        `columns`         |     `Array<string \| ColumnDescriptor>`      |        -         | Array of [column descriptors](#optionscolumns).                                                    |
+  |  `countAnsiEscapeCodes`  |                  `boolean`                   |     `false`      | Whether to count ANSI escape codes when calculating string width.                                  |
   |       `headerCase`       |             `"preserve" \| ...`              | `"sentenceCase"` | Casing to use for headers derived from input object keys ([read more](#optionsheadercase)).        |
   |   `lineBreakStrategy`    |    `"preserve" \| "strip" \| "truncate"`     |   `"preserve"`   | What to do when cell content contains line breaks.                                                 |
   |       `lineEnding`       |                   `string`                   |      `"\n"`      | String used at end-of-line.                                                                        |
@@ -168,6 +169,31 @@ tablemark(
 | Sarah      |   22    | true          |
 | Lee        |   23    | true          |
 <!-- prettier-ignore-end -->
+
+### `options.countAnsiEscapeCodes`
+
+Control whether to count ANSI escape codes when calculating string width. The default is `false`, meaning ANSI codes are ignored. Setting this to `true` is useful when the output is not intended for a terminal, such as when generating a markdown table for an example in a README file.
+
+```ts
+const data = [
+	{ text: "\u001B[31mRed\u001B[0m", note: "Normal text" },
+	{ text: "\u001B[32mGreen\u001B[0m", note: "More text" }
+];
+
+tablemark(data, { countAnsiEscapeCodes: false });
+
+// | Text  | Note        |
+// | :---- | :---------- |
+// | [31mRed[0m   | Normal text |
+// | [32mGreen[0m | More text   |
+
+tablemark(data, { countAnsiEscapeCodes: true });
+
+// | Text           | Note        |
+// | :------------- | :---------- |
+// | [31mRed[0m   | Normal text |
+// | [32mGreen[0m | More text   |
+```
 
 ### `options.headerCase`
 

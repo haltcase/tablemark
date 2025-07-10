@@ -131,13 +131,19 @@ export interface TablemarkOptions<
 	columns?: (ColumnDescriptor | string)[];
 
 	/**
+	 * Whether to count ANSI escape codes when calculating string width. The
+	 * default is `false`, meaning ANSI escape codes are treated as zero-width.
+	 */
+	countAnsiEscapeCodes?: boolean;
+
+	/**
 	 * Text casing method for header titles derived from input object keys.
 	 */
 	headerCase?: HeaderCase;
 
 	/**
 	 * What to do when cell content contains line breaks. The default is
-	 * "preserve"
+	 * "preserve".
 	 */
 	lineBreakStrategy?: LineBreakStrategy;
 
@@ -159,7 +165,7 @@ export interface TablemarkOptions<
 
 	/**
 	 * What to do when body cell content reaches `maxWidth`. The default is
-	 * "truncateEnd".
+	 * "wrap".
 	 */
 	overflowStrategy?: OverflowStrategy;
 
@@ -193,12 +199,19 @@ export interface TablemarkOptions<
 	unknownKeyStrategy?: UnknownKeyStrategy;
 
 	/**
-	 * Set to `true` to enable broader support of languages, Unicode entities
-	 * like emoji and [fullwidth](https://en.wikipedia.org/wiki/Halfwidth_and_fullwidth_forms)
+	 * The default "auto" strategy detects and provides broader support of
+	 * languages, Unicode entities like emoji and
+	 * [fullwidth](https://en.wikipedia.org/wiki/Halfwidth_and_fullwidth_forms)
 	 * characters, and ANSI escape codes (like terminal colors and styles).
 	 *
-	 * By default, tablemark uses "naive" text processing that is much faster,
-	 * but is unaware of these "wider" or invisible characters.
+	 * To force this enhanced support, set this to `"advanced"`.
+	 *
+	 * To force using a faster, more "naive" strategy, set this to `"basic"`.
+	 * However, this can result in misaligned columns and improper ANSI styling.
+	 *
+	 * Note that ANSI escape codes are treated as zero-width regardless of the
+	 * strategy. If you want to change that behavior, use the
+	 * `countAnsiEscapeCodes` option.
 	 */
 	textHandlingStrategy?: TextHandlingStrategy;
 

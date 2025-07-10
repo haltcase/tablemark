@@ -109,6 +109,14 @@ test("pad (center alignment): even content width and given width", () => {
 	).toBe("   hi   ");
 });
 
+test("advancedStringWidth: ignores ANSI escape codes when `countAnsiEscapeCodes: false`", () => {
+	expect(utilites.advancedStringWidth("\u001B[31mRed\u001B[0m", false)).toBe(3);
+});
+
+test("advancedStringWidth: counts ANSI escape codes when `countAnsiEscapeCodes: true`", () => {
+	expect(utilites.advancedStringWidth("\u001B[31mRed\u001B[0m", true)).toBe(12);
+});
+
 test("toCellText: renders its argument as a string suitable for a table cell", () => {
 	expect(utilites.toCellText({ key: "undefined", value: undefined })).toBe("");
 

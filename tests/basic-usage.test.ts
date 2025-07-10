@@ -391,4 +391,30 @@ describe("basic usage", () => {
 			})
 		).toMatchFileSnapshot(snapshotFile("combo-maxWidth-overflow-lineBreak"));
 	});
+
+	test("counts width of ANSI escape codes when `countAnsiEscapeCodes: false`", async () => {
+		const data = [
+			{ text: "\u001B[31mRed\u001B[0m", note: "Normal text" },
+			{ text: "\u001B[32mGreen\u001B[0m", note: "More text" }
+		];
+
+		await expect(
+			tablemark(data, {
+				countAnsiEscapeCodes: false
+			})
+		).toMatchFileSnapshot(snapshotFile("countAnsiEscapeCodes-false"));
+	});
+
+	test("counts width of ANSI escape codes when `countAnsiEscapeCodes: true`", async () => {
+		const data = [
+			{ text: "\u001B[31mRed\u001B[0m", note: "Normal text" },
+			{ text: "\u001B[32mGreen\u001B[0m", note: "More text" }
+		];
+
+		await expect(
+			tablemark(data, {
+				countAnsiEscapeCodes: true
+			})
+		).toMatchFileSnapshot(snapshotFile("countAnsiEscapeCodes-true"));
+	});
 });

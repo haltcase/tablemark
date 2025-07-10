@@ -6,6 +6,7 @@ import wrapAnsi from "wrap-ansi";
 
 import {
 	alignmentOptions,
+	ansiCodeRegex,
 	lineBreakStrategies,
 	lineEndingRegex,
 	overflowStrategies,
@@ -24,7 +25,10 @@ import type {
 } from "./types.js";
 
 type StringWrapMethod = (string: string, width: number) => string[];
-type StringWidthMethod = (string: string) => number;
+type StringWidthMethod = (
+	string: string,
+	shouldCountAnsiEscapeCodes?: boolean
+) => number;
 
 const pipeRegex = /\|/g;
 export const ansiRegex = getAnsiRegex({ onlyFirst: true });
@@ -126,12 +130,29 @@ export const getStringWrapMethod = (
 	}
 };
 
-export const advancedStringWidth: StringWidthMethod = (string) =>
-	stringWidth(string);
+export const advancedStringWidth: StringWidthMethod = (
+	string,
+	shouldCountAnsiEscapeCodes = false
+) => {
+	const width = stringWidth(string, {
+		countAnsiEscapeCodes: shouldCountAnsiEscapeCodes
+	});
 
-export const autoStringWidth: StringWidthMethod = (string) => {
+	if (shouldCountAnsiEscapeCodes) {
+		// `stringWidth` doesn't count the ASCII escape character, but we need to if
+		// we want to align column sides accurately
+		return width + (string.match(ansiCodeRegex) ?? []).length;
+	}
+
+	return width;
+};
+
+export const autoStringWidth: StringWidthMethod = (
+	string,
+	shouldCountAnsiEscapeCodes
+) => {
 	if (hasSpecialCharacters(string)) {
-		return advancedStringWidth(string);
+		return advancedStringWidth(string, shouldCountAnsiEscapeCodes);
 	}
 
 	return string.length;
@@ -144,13 +165,13 @@ export const autoStringWidth: StringWidthMethod = (string) => {
  * Note that `content` is expected to be a string _not_ containing newlines.
  */
 export const pad = (
-	_config: TablemarkOptionsNormalized,
+	config: TablemarkOptionsNormalized,
 	content: string,
 	_columnIndex: number,
 	alignment: Alignment | undefined,
 	width: number
 ): string => {
-	const contentWidth = autoStringWidth(content);
+	const contentWidth = autoStringWidth(content, config.countAnsiEscapeCodes);
 
 	if (alignment == null || alignment === alignmentOptions.left) {
 		return content + " ".repeat(Math.max(0, width - contentWidth));
@@ -182,6 +203,7 @@ export const toCellText: ToCellText = ({ value }) => {
 const defaultOptions: TablemarkOptionsNormalized = {
 	align: alignmentOptions.left,
 	columns: [],
+	countAnsiEscapeCodes: false,
 	headerCase: "sentenceCase",
 	lineBreakStrategy: lineBreakStrategies.preserve,
 	lineEnding: "\n",
@@ -309,7 +331,10 @@ export const getMaxStringWidth = (
 		const longestLineWidth =
 			lines.reduce<number>(
 				(currentMax, nextString) =>
-					Math.max(currentMax, stringWidth(nextString)),
+					Math.max(
+						currentMax,
+						autoStringWidth(nextString, config.countAnsiEscapeCodes)
+					),
 				0
 			) +
 			(config.lineBreakStrategy === lineBreakStrategies.truncate
@@ -319,7 +344,7 @@ export const getMaxStringWidth = (
 		return longestLineWidth;
 	}
 
-	return stringWidth(text);
+	return autoStringWidth(text, config.countAnsiEscapeCodes);
 };
 
 /**

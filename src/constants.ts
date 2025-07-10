@@ -29,6 +29,8 @@ export const textHandlingStrategies = {
 
 export const columnsMinimumWidth = 3;
 
+// oxlint-disable-next-line no-control-regex
+export const ansiCodeRegex = /\u001B/g;
 export const lineEndingRegex = /\r?\n/g;
 
 export const truncationCharacter = "\u2026";
