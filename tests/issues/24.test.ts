@@ -1,4 +1,4 @@
-// https://github.com/haltcase/issues/24
+// https://github.com/haltcase/tablemark/issues/24
 
 import { expect, test } from "vitest";
 
