@@ -2,3 +2,6 @@ onlyBuiltDependencies:
   - esbuild
   - lefthook
   - unrs-resolver
+
+patchedDependencies:
+  wordwrapjs: patches/wordwrapjs.patch
