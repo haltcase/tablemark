@@ -1,3 +1,37 @@
+## [`4.0.0-beta.1`](https://github.com/haltcase/tablemark/compare/v3.1.0...v4.0.0-beta.1) (2025-08-29)
+
+
+###### FEATURES
+
+- support counting ANSI escapes ([ee38d57](https://github.com/haltcase/tablemark/commit/ee38d57))
+- reduce minimum column width to 3 ([75f8337](https://github.com/haltcase/tablemark/commit/75f8337))
+- rewrite with extended text handling support ([468e44d](https://github.com/haltcase/tablemark/commit/468e44d))
+- require node v20+ ([9f9e74f](https://github.com/haltcase/tablemark/commit/9f9e74f))
+
+###### DEPRECATIONS
+
+- `options.caseHeaders` is deprecated in favor of `options.headerCase`.
+- `options.wrapWidth` is deprecated in favor of `options.maxWidth`.
+
+These deprecated options will be removed in the next major version.
+
+###### BREAKING CHANGES
+
+- Node v20 is now the minimum required version since v18 is officially EOL.
+- `tablemark` is now a named export instead of the default.
+- If the input iterable is empty, an empty string is returned instead of
+  an error.
+- `options.align` no longer allows uppercase values like `LEFT`.
+- `options.toCellText` now receives an object with `key` (object key)
+  and `value` (cell content) properties, rather than just the string
+  value.
+- The minimum column width has been reduced to 3
+  characters, which is the narrowest width that still allows for both left and
+  right alignment characters and a single hyphen in the divider cell. This is a
+  fairly innocuous change, but does change output table layouts.
+
+---
+
 ## [`3.1.0`](https://github.com/haltcase/tablemark/compare/v3.0.0...v3.1.0) (2024-04-02)
 
 

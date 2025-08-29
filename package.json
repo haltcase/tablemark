@@ -1,6 +1,6 @@
 {
 	"name": "tablemark",
-	"version": "3.1.0",
+	"version": "4.0.0-beta.1",
 	"description": "Generate markdown tables from a list of objects or JSON data.",
 	"keywords": [
 		"markdown",
