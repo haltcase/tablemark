@@ -1,3 +1,13 @@
+## [`4.0.0-beta.2`](https://github.com/haltcase/tablemark/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2025-08-29)
+
+
+###### BUG FIXES
+
+* run build before publishing ([991a496](https://github.com/haltcase/tablemark/commit/991a496))
+
+
+---
+
 ## [`4.0.0-beta.1`](https://github.com/haltcase/tablemark/compare/v3.1.0...v4.0.0-beta.1) (2025-08-29)
 
 
