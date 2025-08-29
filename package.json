@@ -36,7 +36,7 @@
 		"eslint:check": "eslint src tests",
 		"format": "oxlint --fix && eslint --fix src tests && prettier --write src tests",
 		"oxlint:check": "oxlint",
-		"prepublishOnly": "pnpm test",
+		"prepublishOnly": "vitest --run",
 		"prettier:check": "prettier --check src tests",
 		"test": "vitest",
 		"typescript:check": "tsgo --noEmit"
