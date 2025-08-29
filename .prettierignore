@@ -1,2 +1,3 @@
+pnpm-lock.yaml
 tests/__snapshots__/**
 tests/fixtures/**
