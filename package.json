@@ -1,6 +1,6 @@
 {
 	"name": "tablemark",
-	"version": "4.0.0-beta.2",
+	"version": "0.0.0-dev",
 	"description": "Generate markdown tables from a list of objects or JSON data.",
 	"keywords": [
 		"markdown",
@@ -32,7 +32,6 @@
 	],
 	"scripts": {
 		"build": "tsdown",
-		"changelog": "changelog --in-file CHANGELOG.md --out-file CHANGELOG.md",
 		"eslint:check": "eslint src tests",
 		"format": "oxlint --fix && eslint --fix src tests && prettier --write src tests",
 		"oxlint:check": "oxlint",
@@ -51,7 +50,6 @@
 	},
 	"devDependencies": {
 		"@arethetypeswrong/core": "^0.18.2",
-		"@citycide/changelog": "^2.0.0",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
 		"@commitlint/types": "^19.8.1",
@@ -64,6 +62,7 @@
 		"lefthook": "^1.12.4",
 		"oxlint": "^1.14.0",
 		"prettier": "^3.6.2",
+		"semantic-release": "^24.2.7",
 		"tsdown": "0.14.2",
 		"typescript": "^5.9.2",
 		"vitest": "3.2.4"

@@ -1,0 +1,31 @@
+name: Publish release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Publish package and create release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create a GitHub release
+      issues: write # to comment on released issues
+      pull-requests: write # to comment on released pull requests
+      id-token: write # to enable npm provenance
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Test
+        run: pnpm test
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm semantic-release
