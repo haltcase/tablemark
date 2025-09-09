@@ -127,7 +127,7 @@ tablemark(
 
 ### `options.columns`
 
-Describe the columns of the table. Each column can be a simple string to rename the column or an object with properties to further customize the column's behavior. Tthe following properties are available and will override behavior specified elsewhere in `options`:
+Describe the columns of the table. Each column can be a simple string to rename the column or an object with properties to further customize the column's behavior. The following properties are available and will override behavior specified elsewhere in `options`:
 
 - `name`: Name of the column used as the title in the header row.
 - `align`: Horizontal alignment of the column content.
