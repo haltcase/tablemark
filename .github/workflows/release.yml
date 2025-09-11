@@ -1,31 +1,36 @@
-name: Publish release
+name: Release
+
+permissions:
+  contents: write
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      acknowledge:
+        description: "I understand that this action will publish everything on canary to the latest tag"
+        required: true
+        type: boolean
 
 jobs:
   release:
-    name: Publish package and create release
+    if: ${{ inputs.acknowledge }}
+    name: Release
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # to create a GitHub release
-      issues: write # to comment on released issues
-      pull-requests: write # to comment on released pull requests
-      id-token: write # to enable npm provenance
-
     steps:
+      - name: Generate access token
+        uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b # v2.1.1
+        id: generate-token
+        with:
+          app-id: ${{ secrets.BOT_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+          ref: "main"
+          token: ${{ steps.generate-token.outputs.token }}
 
-      - name: Install
-        uses: ./.github/composite-actions/install
-
-      - name: Test
-        run: pnpm test
-
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm semantic-release
+      - name: Merge canary into main
+        run: |
+          git merge --ff-only origin/canary
+          git push

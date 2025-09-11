@@ -1,0 +1,58 @@
+name: Publish release
+
+on:
+  push:
+    branches:
+      - main
+      - canary
+
+jobs:
+  release:
+    name: Publish package and create release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create a GitHub release
+      issues: write # to comment on released issues
+      pull-requests: write # to comment on released pull requests
+      id-token: write # to enable npm provenance
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm semantic-release
+
+  update-canary:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: [release]
+    name: Update canary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate access token
+        uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b # v2.1.1
+        id: generate-token
+        with:
+          app-id: ${{ secrets.BOT_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+
+      - name: Check out
+        uses: actions/checkout@v5
+        with:
+          # Ensure branches share histories; see:
+          # https://github.com/actions/checkout/issues/125
+          fetch-depth: 0
+          ref: "canary"
+          token: ${{ steps.generate-token.outputs.token }}
+
+      - name: Back-merge main into canary
+        run: |
+          git merge --ff-only origin/main
+          git push
