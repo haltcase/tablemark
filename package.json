@@ -38,7 +38,7 @@
 		"prepublishOnly": "vitest --run && pnpm build",
 		"prettier:check": "prettier --check src tests",
 		"test": "vitest",
-		"typescript:check": "tsgo --noEmit"
+		"typescript:check": "tsgo"
 	},
 	"prettier": "@haltcase/style/prettier",
 	"dependencies": {
