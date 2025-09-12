@@ -16,10 +16,10 @@
 
 /**
  * @typedef ScriptProps
- * @property {Context} context
- * @property {Core} core
- * @property {Exec} exec
- * @property {Octokit} github
+ * @property {Context} context - GitHub Actions context
+ * @property {Core} core - Reference to `@actions/core`
+ * @property {Exec} exec - Reference to `@actions/exec`
+ * @property {Octokit} github - Authenticated GitHub client
  */
 
 const releaseBranch = "main";

@@ -1,9 +1,11 @@
 // @ts-check
 
+// oxlint-disable check-tag-names -- false positive on TSDoc import
 /**
- * @import {Context} from "@actions/github/lib/context"
+ * @import { Context } from "@actions/github/lib/context"
  * @typedef {ReturnType<import("@actions/github").getOctokit>} Octokit
  */
+// oxlint-enable check-tag-names
 
 /**
  * @param {object} props
