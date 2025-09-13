@@ -25,6 +25,7 @@ export const tablemark = <T extends InputData>(
 
 export {
 	alignmentOptions,
+	headerCaseOptions,
 	lineBreakStrategies,
 	overflowStrategies,
 	textHandlingStrategies,
