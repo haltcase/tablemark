@@ -31,9 +31,7 @@ export default {
 				// Change that does not affect the meaning of the code
 				"style",
 				// Addition of missing tests or corrections for existing tests
-				"test",
-				// For automated releases only
-				"release"
+				"test"
 			]
 		]
 	}
