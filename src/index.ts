@@ -23,5 +23,12 @@ export const tablemark = <T extends InputData>(
 	return buildMarkdown(input as unknown as NonEmptyInputData, config);
 };
 
+export {
+	alignmentOptions,
+	lineBreakStrategies,
+	overflowStrategies,
+	textHandlingStrategies,
+	unknownKeyStrategies
+} from "./constants.js";
 export type * from "./types.js";
 export { toCellText } from "./utilities.js";
