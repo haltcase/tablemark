@@ -129,6 +129,25 @@ describe("basic usage", () => {
 			})
 		).toMatchFileSnapshot(snapshotFile("wrap-maxWidth-5"));
 	});
+	test("wraps text to the given column-level `maxWidth`", async () => {
+		const data = [
+			{ name: "Benjamin", age: 21, isCool: false },
+			{ name: "Sarah", age: 22, isCool: true },
+			{ name: "Lee", age: 23, isCool: true }
+		];
+
+		await expect(
+			tablemark(data, {
+				overflowStrategy: "wrap",
+				maxWidth: 20,
+				columns: [
+					{ name: "Name", maxWidth: 5 },
+					{ name: "Age" },
+					{ name: "Is Cool?" }
+				]
+			})
+		).toMatchFileSnapshot(snapshotFile("wrap-column-maxWidth-5"));
+	});
 
 	test("wrap: handles newlines in a cell by adding rows as needed when `overflowStrategy: 'wrap'`", async () => {
 		const data = [

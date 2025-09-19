@@ -281,6 +281,7 @@ export const normalizeOptions = (
 			return {
 				name: descriptor.name,
 				align: descriptor.align ?? normalizedOptions.align,
+				maxWidth: descriptor.maxWidth ?? normalizedOptions.maxWidth,
 				overflowStrategy:
 					descriptor.overflowStrategy ?? normalizedOptions.overflowStrategy,
 				overflowHeaderStrategy:
