@@ -19,7 +19,7 @@ runs:
     - name: Install Node.js
       uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
       with:
-        node-version: ${{ inputs.NODE_VERSION }}
+        node-version: ${{ inputs.node-version }}
         cache: pnpm
 
     - name: Install dependencies
