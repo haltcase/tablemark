@@ -6,7 +6,7 @@ import type {
 	NonEmptyInputData,
 	TablemarkOptionsNormalized
 } from "./types.js";
-import { getMaxStringWidth, toTextCase } from "./utilities.js";
+import { escapePipes, getMaxStringWidth, toTextCase } from "./utilities.js";
 
 type MaxWidthMap = Map<string, number>;
 
@@ -74,14 +74,16 @@ const getColumnTitle = (
 	const { name: suppliedName } = config.columns[columnIndex] ?? {};
 
 	if (suppliedName) {
-		return suppliedName;
+		return escapePipes(suppliedName);
 	}
 
 	const casedTitle = transformAnsiString(key, (part) =>
 		toTextCase(part, config.headerCase)
 	);
 
-	return config.toHeaderTitle?.({ key, title: casedTitle }) ?? casedTitle;
+	return escapePipes(
+		config.toHeaderTitle?.({ key, title: casedTitle }) ?? casedTitle
+	);
 };
 
 export const getDataProfile = (

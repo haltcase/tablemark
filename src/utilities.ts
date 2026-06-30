@@ -31,6 +31,14 @@ type StringWidthMethod = (
 ) => number;
 
 const pipeRegex = /\|/g;
+
+/**
+ * Escape pipe characters so they render as a literal `|` within a table cell
+ * instead of being parsed as a column delimiter.
+ */
+export const escapePipes = (value: string): string =>
+	value.replaceAll(pipeRegex, "\\|");
+
 export const ansiRegex = getAnsiRegex({ onlyFirst: true });
 
 /**
@@ -197,7 +205,7 @@ export const toCellText: ToCellText = ({ value }) => {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-base-to-string
-	return String(value).replaceAll(pipeRegex, "\\|");
+	return escapePipes(String(value));
 };
 
 const defaultOptions: TablemarkOptionsNormalized = {

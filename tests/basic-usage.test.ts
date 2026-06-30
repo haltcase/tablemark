@@ -290,6 +290,14 @@ describe("basic usage", () => {
 		);
 	});
 
+	test("escapes pipe characters in column titles by default", async () => {
+		const data = [{ range: 5 }, { range: 12 }];
+
+		await expect(
+			tablemark(data, { columns: [{ name: "Min | Max" }] })
+		).toMatchFileSnapshot(snapshotFile("pipe-escaping-column-title"));
+	});
+
 	test("pads cells with ANSI styles properly when `textHandlingStrategy: 'advanced'`", async () => {
 		const data = [
 			{
