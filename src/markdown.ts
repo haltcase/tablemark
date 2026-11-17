@@ -189,7 +189,12 @@ export const getObjectRow = (
 	object: DataRecord,
 	profile: DataProfile,
 	config: TablemarkOptionsNormalized
-): string => getRow(Object.values(object), profile, config);
+): string => {
+	const columns = profile.keys.map((key) =>
+		Object.hasOwn(object, key) ? (object[key] ?? "") : ""
+	);
+	return getRow(columns, profile, config);
+};
 
 export const getRows = (
 	profile: DataProfile,

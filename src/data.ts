@@ -24,43 +24,36 @@ export const initializeProfile = (
 	config: TablemarkOptionsNormalized
 ): DataProfile => {
 	const maxWidthMap: MaxWidthMap = new Map();
-	const fieldSet = new Set(Object.keys(input[0]));
+	const keys = Object.keys(input[0]);
+	const columnIndices = new Map(keys.map((key, index) => [key, index]));
 
 	const data = input.map((record, recordIndex) => {
-		let entries = Object.entries(record);
-
-		if (config.unknownKeyStrategy === "ignore") {
-			entries = entries.filter(([key]) => fieldSet.has(key));
-		}
-
-		return Object.fromEntries(
-			entries.map(([key, value], columnIndex) => {
-				if (config.unknownKeyStrategy === "throw" && !fieldSet.has(key)) {
+		const entries: [string, string][] = [];
+		for (const [key, value] of Object.entries(record)) {
+			const columnIndex = columnIndices.get(key);
+			if (columnIndex === undefined) {
+				if (config.unknownKeyStrategy === "throw") {
 					throw new RangeError(
 						`Unexpected object key '${key}' at record index ${recordIndex}`
 					);
 				}
+				continue;
+			}
 
-				const cellValue = config.toCellText({ key, value });
-				const thisLength = getMaxStringWidth(config, columnIndex, cellValue);
-				const entryLength = maxWidthMap.get(key);
+			const cellValue = config.toCellText({ key, value });
+			const thisLength = getMaxStringWidth(config, columnIndex, cellValue);
+			maxWidthMap.set(key, Math.max(thisLength, maxWidthMap.get(key) ?? 0));
+			entries.push([key, cellValue]);
+		}
 
-				if (entryLength == null) {
-					maxWidthMap.set(key, thisLength);
-				} else {
-					maxWidthMap.set(key, Math.max(thisLength, entryLength));
-				}
-
-				return [key, cellValue];
-			})
-		);
+		return Object.fromEntries(entries);
 	}) as NonEmptyData;
 
 	return {
 		data,
 		maxWidthMap,
 		alignments: [],
-		keys: [],
+		keys,
 		titles: [],
 		widths: []
 	};
@@ -89,9 +82,8 @@ export const getDataProfile = (
 	config: TablemarkOptionsNormalized
 ): DataProfile => {
 	const profile = initializeProfile(input, config);
-	const object = profile.data[0];
 
-	for (const [columnIndex, key] of Object.keys(object).entries()) {
+	for (const [columnIndex, key] of profile.keys.entries()) {
 		const title = getColumnTitle(config, key, columnIndex);
 		const {
 			align = config.align,
@@ -110,7 +102,6 @@ export const getDataProfile = (
 				maxWidth
 			);
 
-		profile.keys.push(key);
 		profile.titles.push(title);
 		profile.alignments.push(align);
 		profile.widths.push(calculatedWidth);
