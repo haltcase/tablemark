@@ -31,6 +31,7 @@ type StringWidthMethod = (
 ) => number;
 
 const pipeRegex = /\|/g;
+const astralCharacterRegex = /[\u{10000}-\u{10FFFF}]/u;
 export const ansiRegex = getAnsiRegex({ onlyFirst: true });
 
 /**
@@ -39,7 +40,9 @@ export const ansiRegex = getAnsiRegex({ onlyFirst: true });
  * styles, or CJK characters.
  */
 export const hasSpecialCharacters = (string: string): boolean =>
-	ansiRegex.test(string) || string.length !== stringWidth(string);
+	ansiRegex.test(string) ||
+	astralCharacterRegex.test(string) ||
+	string.length !== stringWidth(string);
 
 export const basicStringWrap: StringWrapMethod = (string, width) =>
 	wordwrap.lines(string, {
