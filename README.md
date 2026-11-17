@@ -2,7 +2,7 @@
 
 > Generate markdown tables from JSON data.
 
-Render arrays of objects as markdown tables, with configurable fancy output.
+Render normalized arrays of objects as markdown tables, with configurable fancy output.
 
 - Rename table headers and transform cell content
 - Align columns to the left, center, or right (all columns or per column)
@@ -128,6 +128,11 @@ tablemark(
 ### `options.columns`
 
 Describe the columns of the table. Each column can be a simple string to rename the column or an object with properties to further customize the column's behavior. The following properties are available and will override behavior specified elsewhere in `options`:
+
+> [!NOTE]
+> Be aware that if you use `options.columns`, the final markdown table
+> will truncate the array based on the number of unique keys of the first
+> encountered object within the data array.
 
 - `name`: Name of the column used as the title in the header row.
 - `align`: Horizontal alignment of the column content.
